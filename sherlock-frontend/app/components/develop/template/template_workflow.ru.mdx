@@ -1,0 +1,792 @@
+import { CodeGroup } from '../code.tsx'
+import { Row, Col, Properties, Property, Heading, SubProperty, Paragraph } from '../md.tsx'
+
+# API приложения Workflow
+
+Приложения Workflow предлагают поддержку без сессий и идеальны для перевода, написания статей, AI-суммаризации и многого другого.
+
+<div>
+  ### Базовый URL
+  <CodeGroup title="Code" targetCode={props.appDetail.api_base_url}>
+    ```javascript
+    ```
+  </CodeGroup>
+
+  ### Аутентификация
+
+  API сервиса использует аутентификацию через `API-Key`.
+  <i>**Настоятельно рекомендуется хранить ваш API-ключ на стороне сервера, не передавать и не хранить его на стороне клиента, чтобы избежать возможной утечки API-ключа, которая может привести к серьезным последствиям.**</i>
+
+  Для всех API-запросов включите ваш API-ключ в HTTP-заголовок `Authorization`, как показано ниже:
+
+  <CodeGroup title="Code">
+    ```javascript
+      Authorization: Bearer {API_KEY}
+
+    ```
+  </CodeGroup>
+</div>
+
+---
+
+<Heading
+  url='/workflows/run'
+  method='POST'
+  title='Выполнить Workflow'
+  name='#Execute-Workflow'
+/>
+<Row>
+  <Col>
+    Выполнить workflow, не может быть выполнен без опубликованного workflow.
+
+    ### Тело запроса
+      - `inputs` (object) Обязательно
+        Позволяет вводить различные значения переменных, определенных приложением.
+        Параметр `inputs` содержит несколько пар ключ/значение, где каждый ключ соответствует конкретной переменной, а каждое значение является конкретным значением для этой переменной.
+        Приложение workflow требует ввода хотя бы одной пары ключ/значение. Переменная может быть типа File Array.
+        Переменная типа File Array подходит для ввода файлов в сочетании с пониманием текста и ответами на вопросы, доступно только когда модель поддерживает возможность парсинга и понимания файлов.
+        Если переменная имеет тип File Array, соответствующее значение должно быть списком, элементы которого содержат следующие атрибуты: 
+          - `type` (string) Поддерживаемый тип: 
+            - `document` ('TXT', 'MD', 'MARKDOWN', 'PDF', 'HTML', 'XLSX', 'XLS', 'DOCX', 'CSV', 'EML', 'MSG', 'PPTX', 'PPT', 'XML', 'EPUB')
+            - `image` ('JPG', 'JPEG', 'PNG', 'GIF', 'WEBP', 'SVG')
+            - `audio` ('MP3', 'M4A', 'WAV', 'WEBM', 'AMR')
+            - `video` ('MP4', 'MOV', 'MPEG', 'MPGA')
+            - `custom` (Другие типы файлов)
+          - `transfer_method` (string) Способ передачи, `remote_url` для URL файла / `local_file` для загрузки файла
+          - `url` (string) URL файла (когда способ передачи - `remote_url`)
+          - `upload_file_id` (string) ID загруженного файла, который должен быть получен путем загрузки через API загрузки файлов заранее (когда способ передачи - `local_file`)
+
+      - `response_mode` (string) Обязательно
+        Режим возврата ответа, поддерживает:
+        - `streaming` Режим потоковой передачи (рекомендуется), реализует вывод в стиле печатной машинки через SSE ([Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)).
+        - `blocking` Блокирующий режим, возвращает результат после завершения выполнения. (Запросы могут быть прерваны, если процесс длительный)
+        <i>Из-за ограничений Cloudflare запрос будет прерван без возврата через 100 секунд.</i>
+      - `user` (string) Обязательно
+        Идентификатор пользователя, используется для определения личности конечного пользователя для поиска и статистики.
+        Должен быть уникально определен разработчиком в рамках приложения.
+
+    ### Ответ
+    Когда `response_mode` равен `blocking`, возвращается объект CompletionResponse.
+    Когда `response_mode` равен `streaming`, возвращается поток ChunkCompletionResponse.
+
+    ### CompletionResponse
+    Возвращает результат приложения, `Content-Type` - `application/json`.
+    - `workflow_run_id` (string) Уникальный ID выполнения workflow
+    - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+    - `data` (object) детали результата
+      - `id` (string) ID выполнения workflow
+      - `workflow_id` (string) ID связанного workflow
+      - `status` (string) статус выполнения, `running` / `succeeded` / `failed` / `stopped`
+      - `outputs` (json) Необязательное содержимое вывода
+      - `error` (string) Необязательная причина ошибки
+      - `elapsed_time` (float) Необязательное общее количество секунд, использованное
+      - `total_tokens` (int) Необязательно использованные токены
+      - `total_steps` (int) по умолчанию 0
+      - `created_at` (timestamp) время начала
+      - `finished_at` (timestamp) время окончания
+
+    ### ChunkCompletionResponse
+    Возвращает фрагменты потока, выводимые приложением, `Content-Type` - `text/event-stream`.
+    Каждый потоковый фрагмент начинается с `data:`, разделен двумя символами новой строки `\n\n`, как показано ниже:
+    <CodeGroup>
+    ```streaming {{ title: 'Response' }}
+    data: {"event": "text_chunk", "workflow_run_id": "b85e5fc5-751b-454d-b14e-dc5f240b0a31", "task_id": "bd029338-b068-4d34-a331-fc85478922c2", "data": {"text": "\u4e3a\u4e86", "from_variable_selector": ["1745912968134", "text"]}}\n\n
+    ```
+    </CodeGroup>
+    Структура потоковых фрагментов варьируется в зависимости от `event`:
+    - `event: workflow_started` workflow начинает выполнение
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `workflow_run_id` (string) Уникальный ID выполнения workflow
+      - `event` (string) фиксирован как `workflow_started`
+      - `data` (object) детали
+        - `id` (string) Уникальный ID выполнения workflow
+        - `workflow_id` (string) ID связанного workflow
+        - `sequence_number` (int) Автоинкрементный серийный номер, автоинкремент в приложении, начиная с 1
+        - `created_at` (timestamp) Временная метка создания, например, 1705395332
+    - `event: node_started` выполнение узла началось
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `workflow_run_id` (string) Уникальный ID выполнения workflow
+      - `event` (string) фиксирован как `node_started`
+      - `data` (object) детали
+        - `id` (string) Уникальный ID выполнения workflow
+        - `node_id` (string) ID узла
+        - `node_type` (string) тип узла
+        - `title` (string) имя узла
+        - `index` (int) Порядковый номер выполнения, используется для отображения последовательности узлов трассировки
+        - `predecessor_node_id` (string) необязательно ID узла-предшественника, используется для отображения пути выполнения на холсте
+        - `inputs` (object) Содержимое всех переменных предшествующих узлов, используемых в узле
+        - `created_at` (timestamp) временная метка начала, например, 1705395332
+    - `event: text_chunk` Текстовый фрагмент  
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже 
+      - `workflow_run_id` (string) Уникальный ID выполнения workflow 
+      - `event` (string) фиксирован как `text_chunk`
+      - `data` (object) детали
+        - `text` (string) Текстовое содержимое
+        - `from_variable_selector` (array) Путь источника текста, помогающий разработчикам понять, какой узел и переменная сгенерировали текст
+    - `event: node_finished` выполнение узла завершено, успех или неудача в разных состояниях в одном событии
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `workflow_run_id` (string) Уникальный ID выполнения workflow
+      - `event` (string) фиксирован как `node_finished`
+      - `data` (object) детали
+        - `id` (string) Уникальный ID выполнения workflow
+        - `node_id` (string) ID узла
+        - `node_type` (string) тип узла
+        - `title` (string) имя узла
+        - `index` (int) Порядковый номер выполнения, используется для отображения последовательности узлов трассировки
+        - `predecessor_node_id` (string) необязательно ID узла-предшественника, используется для отображения пути выполнения на холсте
+        - `inputs` (object) Содержимое всех переменных предшествующих узлов, используемых в узле
+        - `process_data` (json) Необязательные данные процесса узла
+        - `outputs` (json) Необязательное содержимое вывода
+        - `status` (string) статус выполнения, `running` / `succeeded` / `failed` / `stopped`
+        - `error` (string) Необязательная причина ошибки
+        - `elapsed_time` (float) Необязательное общее количество секунд, использованное
+        - `execution_metadata` (json) метаданные
+          - `total_tokens` (int) необязательно использованные токены
+          - `total_price` (decimal) необязательно Общая стоимость
+          - `currency` (string) необязательно например `USD` / `RMB`
+        - `created_at` (timestamp) временная метка начала, например, 1705395332
+    - `event: workflow_finished` выполнение workflow завершено, успех или неудача в разных состояниях в одном событии
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `workflow_run_id` (string) Уникальный ID выполнения workflow
+      - `event` (string) фиксирован как `workflow_finished`
+      - `data` (object) детали
+        - `id` (string) ID выполнения workflow
+        - `workflow_id` (string) ID связанного workflow
+        - `status` (string) статус выполнения, `running` / `succeeded` / `failed` / `stopped`
+        - `outputs` (json) Необязательное содержимое вывода
+        - `error` (string) Необязательная причина ошибки
+        - `elapsed_time` (float) Необязательное общее количество секунд, использованное
+        - `total_tokens` (int) Необязательно использованные токены
+        - `total_steps` (int) по умолчанию 0
+        - `created_at` (timestamp) время начала
+        - `finished_at` (timestamp) время окончания
+    - `event: tts_message` Событие аудиопотока TTS, то есть вывод синтеза речи. Содержимое представляет собой аудиоблок в формате Mp3, закодированный как строка base64. При воспроизведении просто декодируйте base64 и передайте его в плеер. (Это сообщение доступно только при включенном автовоспроизведении)
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и интерфейса остановки ответа ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `audio` (string) Аудио после синтеза речи, закодированное в текстовом содержимом base64, при воспроизведении просто декодируйте base64 и передайте его в плеер
+      - `created_at` (int) Временная метка создания, например: 1705395332
+    - `event: tts_message_end` Событие окончания аудиопотока TTS, получение этого события указывает на окончание аудиопотока.
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и интерфейса остановки ответа ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `audio` (string) Событие окончания не имеет аудио, поэтому это пустая строка
+      - `created_at` (int) Временная метка создания, например: 1705395332
+    - `event: ping` Событие ping каждые 10 секунд для поддержания соединения активным.
+
+    ### Ошибки
+    - 400, `invalid_param`, abnormal parameter input
+    - 400, `app_unavailable`, App configuration unavailable
+    - 400, `provider_not_initialize`, no available model credential configuration
+    - 400, `provider_quota_exceeded`, model invocation quota insufficient
+    - 400, `model_currently_not_support`, current model unavailable
+    - 400, `workflow_request_error`, workflow execution failed
+    - 500, internal server error
+
+  </Col>
+  <Col sticky>
+     <CodeGroup title="Запрос" tag="POST" label="/workflows/run" targetCode={`curl -X POST '${props.appDetail.api_base_url}/workflows/run' \\\n--header 'Authorization: Bearer {api_key}' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{\n    "inputs": ${JSON.stringify(props.inputs)},\n    "response_mode": "streaming",\n    "user": "abc-123"\n}'\n`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X POST '${props.appDetail.api_base_url}/workflows/run' \
+    --header 'Authorization: Bearer {api_key}' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "inputs": {},
+        "response_mode": "streaming",
+        "user": "abc-123"
+    }'
+    ```
+
+    </CodeGroup>
+    <CodeGroup title="Example: file array as an input variable">
+      ```json {{ title: 'File variable example' }}
+      {
+        "inputs": {
+          "{variable_name}": 
+          [
+            {
+            "transfer_method": "local_file",
+            "upload_file_id": "{upload_file_id}",
+            "type": "{document_type}"
+            }
+          ]
+        }
+      }
+      ```
+    </CodeGroup>
+    ### Блокирующий режим
+    <CodeGroup title="Ответ">
+    ```json {{ title: 'Response' }}
+    {
+        "workflow_run_id": "djflajgkldjgd",
+        "task_id": "9da23599-e713-473b-982c-4328d4f5c78a",
+        "data": {
+            "id": "fdlsjfjejkghjda",
+            "workflow_id": "fldjaslkfjlsda",
+            "status": "succeeded",
+            "outputs": {
+              "text": "Nice to meet you."
+            },
+            "error": null,
+            "elapsed_time": 0.875,
+            "total_tokens": 3562,
+            "total_steps": 8,
+            "created_at": 1705407629,
+            "finished_at": 1727807631
+        }
+    }
+    ```
+    </CodeGroup>
+    ### Режим потоковой передачи
+    <CodeGroup title="Ответ">
+    ```streaming {{ title: 'Response' }}
+      data: {"event": "workflow_started", "task_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "workflow_run_id": "5ad498-f0c7-4085-b384-88cbe6290", "data": {"id": "5ad498-f0c7-4085-b384-88cbe6290", "workflow_id": "dfjasklfjdslag", "sequence_number": 1, "created_at": 1679586595}}
+      data: {"event": "node_started", "task_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "workflow_run_id": "5ad498-f0c7-4085-b384-88cbe6290", "data": {"id": "5ad498-f0c7-4085-b384-88cbe6290", "node_id": "dfjasklfjdslag", "node_type": "start", "title": "Start", "index": 0, "predecessor_node_id": "fdljewklfklgejlglsd", "inputs": {}, "created_at": 1679586595}}
+      data: {"event": "node_finished", "task_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "workflow_run_id": "5ad498-f0c7-4085-b384-88cbe6290", "data": {"id": "5ad498-f0c7-4085-b384-88cbe6290", "node_id": "dfjasklfjdslag", "node_type": "start", "title": "Start", "index": 0, "predecessor_node_id": "fdljewklfklgejlglsd", "inputs": {}, "outputs": {}, "status": "succeeded", "elapsed_time": 0.324, "execution_metadata": {"total_tokens": 63127864, "total_price": 2.378, "currency": "USD"},  "created_at": 1679586595}}
+      data: {"event": "workflow_finished", "task_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "workflow_run_id": "5ad498-f0c7-4085-b384-88cbe6290", "data": {"id": "5ad498-f0c7-4085-b384-88cbe6290", "workflow_id": "dfjasklfjdslag", "outputs": {}, "status": "succeeded", "elapsed_time": 0.324, "total_tokens": 63127864, "total_steps": "1", "created_at": 1679586595, "finished_at": 1679976595}}
+      data: {"event": "tts_message", "conversation_id": "23dd85f3-1a41-4ea0-b7a9-062734ccfaf9", "message_id": "a8bdc41c-13b2-4c18-bfd9-054b9803038c", "created_at": 1721205487, "task_id": "3bf8a0bb-e73b-4690-9e66-4e429bad8ee7", "audio": "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"}
+      data: {"event": "tts_message_end", "conversation_id": "23dd85f3-1a41-4ea0-b7a9-062734ccfaf9", "message_id": "a8bdc41c-13b2-4c18-bfd9-054b9803038c", "created_at": 1721205487, "task_id": "3bf8a0bb-e73b-4690-9e66-4e429bad8ee7", "audio": ""}
+    ```
+    </CodeGroup>
+    <CodeGroup title="File upload sample code">
+      ```json {{ title: 'File upload sample code' }}
+      import requests
+      import json
+
+      def upload_file(file_path, user):
+          upload_url = "https://api.shai.ai/v1/files/upload"
+          headers = {
+              "Authorization": "Bearer app-xxxxxxxx",
+          }
+          
+          try:
+              print("Upload file...")
+              with open(file_path, 'rb') as file:
+                  files = {
+                      'file': (file_path, file, 'text/plain')  # Make sure the file is uploaded with the appropriate MIME type
+                  }
+                  data = {
+                      "user": user,
+                      "type": "TXT"  # Set the file type to TXT
+                  }
+                  
+                  response = requests.post(upload_url, headers=headers, files=files, data=data)
+                  if response.status_code == 201:  # 201 means creation is successful
+                      print("File uploaded successfully")
+                      return response.json().get("id")  # Get the uploaded file ID
+                  else:
+                      print(f"File upload failed, status code: {response.status_code}")
+                      return None
+          except Exception as e:
+              print(f"Error occurred: {str(e)}")
+              return None
+
+      def run_workflow(file_id, user, response_mode="blocking"):
+          workflow_url = "https://api.shai.ai/v1/workflows/run"
+          headers = {
+              "Authorization": "Bearer app-xxxxxxxxx",
+              "Content-Type": "application/json"
+          }
+
+          data = {
+              "inputs": {
+                  "orig_mail": [{
+                      "transfer_method": "local_file",
+                      "upload_file_id": file_id,
+                      "type": "document"
+                  }]
+              },
+              "response_mode": response_mode,
+              "user": user
+          }
+
+          try:
+              print("Run Workflow...")
+              response = requests.post(workflow_url, headers=headers, json=data)
+              if response.status_code == 200:
+                  print("Workflow execution successful")
+                  return response.json()
+              else:
+                  print(f"Workflow execution failed, status code: {response.status_code}")
+                  return {"status": "error", "message": f"Failed to execute workflow, status code: {response.status_code}"}
+          except Exception as e:
+              print(f"Error occurred: {str(e)}")
+              return {"status": "error", "message": str(e)}
+
+      # Usage Examples
+      file_path = "{your_file_path}"
+      user = "shaiuser"
+
+      # Upload files
+      file_id = upload_file(file_path, user)
+      if file_id:
+          # The file was uploaded successfully, and the workflow continues to run
+          result = run_workflow(file_id, user)
+          print(result)
+      else:
+          print("File upload failed and workflow cannot be executed")
+      ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/workflows/run/:workflow_id'
+  method='GET'
+  title='Получить детали выполнения Workflow'
+  name='#get-workflow-run-detail'
+/>
+<Row>
+  <Col>
+    Получить текущие результаты выполнения задачи workflow на основе ID выполнения workflow.
+    ### Путь
+    - `workflow_id` (string) Workflow ID, can be obtained from the streaming chunk return
+    ### Ответ
+    - `id` (string) ID of workflow execution
+    - `workflow_id` (string) ID of related workflow
+    - `status` (string) status of execution, `running` / `succeeded` / `failed` / `stopped`
+    - `inputs` (json) content of input
+    - `outputs` (json) content of output
+    - `error` (string) reason of error
+    - `total_steps` (int) total steps of task
+    - `total_tokens` (int) total tokens to be used
+    - `created_at` (timestamp) start time
+    - `finished_at` (timestamp) end time
+    - `elapsed_time` (float) total seconds to be used
+  </Col>
+  <Col sticky>
+    ### Пример запроса
+    <CodeGroup title="Запрос" tag="GET" label="/workflows/run/:workflow_id" targetCode={`curl -X GET '${props.appDetail.api_base_url}/workflows/run/:workflow_id' \\\n-H 'Authorization: Bearer {api_key}' \\\n-H 'Content-Type: application/json'`}>
+      ```bash {{ title: 'cURL' }}
+      curl -X GET '${props.appDetail.api_base_url}/workflows/run/:workflow_id' \
+      -H 'Authorization: Bearer {api_key}' \
+      -H 'Content-Type: application/json'
+      ```
+    </CodeGroup>
+
+    ### Ответ Example
+    <CodeGroup title="Ответ">
+    ```json {{ title: 'Response' }}
+    {
+        "id": "b1ad3277-089e-42c6-9dff-6820d94fbc76",
+        "workflow_id": "19eff89f-ec03-4f75-b0fc-897e7effea02",
+        "status": "succeeded",
+        "inputs": "{\"sys.files\": [], \"sys.user_id\": \"abc-123\"}",
+        "outputs": null,
+        "error": null,
+        "total_steps": 3,
+        "total_tokens": 0,
+        "created_at": 1705407629,
+        "finished_at": 1727807631,
+        "elapsed_time": 30.098514399956912
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/workflows/tasks/:task_id/stop'
+  method='POST'
+  title='Остановить генерацию'
+  name='#stop-generatebacks'
+/>
+<Row>
+  <Col>
+  Поддерживается только в режиме потоковой передачи.
+  ### Путь
+  - `task_id` (string) Task ID, can be obtained from the streaming chunk return
+  ### Тело запроса
+  - `user` (string) Required
+    User identifier, used to define the identity of the end-user, must be consistent with the user passed in the send message interface.
+  ### Ответ
+  - `result` (string) Always returns "success"
+  </Col>
+  <Col sticky>
+  ### Пример запроса
+  <CodeGroup title="Request" tag="POST" label="/workflows/tasks/:task_id/stop" targetCode={`curl -X POST '${props.appDetail.api_base_url}/workflows/tasks/:task_id/stop' \\\n-H 'Authorization: Bearer {api_key}' \\\n-H 'Content-Type: application/json' \\\n--data-raw '{"user": "abc-123"}'`}>
+    ```bash {{ title: 'cURL' }}
+    curl -X POST '${props.appDetail.api_base_url}/workflows/tasks/:task_id/stop' \
+    -H 'Authorization: Bearer {api_key}' \
+    -H 'Content-Type: application/json' \
+    --data-raw '{
+        "user": "abc-123"
+    }'
+    ```
+    </CodeGroup>
+
+    ### Ответ Example
+    <CodeGroup title="Ответ">
+    ```json {{ title: 'Response' }}
+    {
+      "result": "success"
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/files/upload'
+  method='POST'
+  title='Загрузка файла'
+  name='#file-upload'
+/>
+<Row>
+  <Col>
+  Загрузить файл для использования при отправке сообщений, обеспечивая мультимодальное понимание изображений и текста.
+  Supports any formats that are supported by your workflow.
+  Uploaded files are for use by the current end-user only.
+
+  ### Тело запроса
+  This interface requires a `multipart/form-data` request.
+  - `file` (File) Required
+    The file to be uploaded.
+  - `user` (string) Required
+    User identifier, defined by the developer's rules, must be unique within the application.
+
+  ### Ответ
+  After a successful upload, the server will return the file's ID and related information.
+  - `id` (uuid) ID
+  - `name` (string) File name
+  - `size` (int) File size (bytes)
+  - `extension` (string) File extension
+  - `mime_type` (string) File mime-type
+  - `created_by` (uuid) End-user ID
+  - `created_at` (timestamp) Creation timestamp, e.g., 1705395332
+
+  ### Ошибки
+  - 400, `no_file_uploaded`, a file must be provided
+  - 400, `too_many_files`, currently only one file is accepted
+  - 400, `unsupported_preview`, the file does not support preview
+  - 400, `unsupported_estimate`, the file does not support estimation
+  - 413, `file_too_large`, the file is too large
+  - 415, `unsupported_file_type`, unsupported extension, currently only document files are accepted
+  - 503, `s3_connection_failed`, unable to connect to S3 service
+  - 503, `s3_permission_denied`, no permission to upload files to S3
+  - 503, `s3_file_too_large`, file exceeds S3 size limit
+  - 500, internal server error
+
+
+  </Col>
+  <Col sticky>
+  ### Пример запроса
+  <CodeGroup title="Request" tag="POST" label="/files/upload" targetCode={`curl -X POST '${props.appDetail.api_base_url}/files/upload' \\\n--header 'Authorization: Bearer {api_key}' \\\n--form 'file=@localfile;type=image/[png|jpeg|jpg|webp|gif]' \\\n--form 'user=abc-123'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X POST '${props.appDetail.api_base_url}/files/upload' \
+    --header 'Authorization: Bearer {api_key}' \
+    --form 'file=@"/path/to/file"'
+    ```
+
+    </CodeGroup>
+
+
+  ### Ответ Example
+  <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "id": "72fa9618-8f89-4a37-9b33-7e1178a24a67",
+      "name": "example.png",
+      "size": 1024,
+      "extension": "png",
+      "mime_type": "image/png",
+      "created_by": "6ad1ab0a-73ff-4ac1-b9e4-cdb312f71f13",
+      "created_at": 1577836800,
+    }
+  ```
+  </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/workflows/logs'
+  method='GET'
+  title='Получить логи Workflow'
+  name='#Get-Workflow-Logs'
+/>
+<Row>
+  <Col>
+    Возвращает логи workflow, первая страница возвращает последние `{limit}` сообщений, т.е. в обратном порядке.
+
+    ### Запрос
+
+    <Properties>
+      <Property name='keyword' type='string' key='keyword'>
+        Keyword to search
+      </Property>
+      <Property name='status' type='string' key='status'>
+        succeeded/failed/stopped
+      </Property>
+      <Property name='page' type='int' key='page'>
+        current page, default is 1.
+      </Property>
+      <Property name='limit' type='int' key='limit'>
+          How many chat history messages to return in one request, default is 20.
+      </Property>
+    </Properties>
+
+    ### Ответ
+  - `page` (int) Current page
+  - `limit` (int) Number of returned items, if input exceeds system limit, returns system limit amount
+  - `total` (int) Number of total items
+  - `has_more` (bool) Whether there is a next page
+  - `data` (array[object]) Log list
+    - `id` (string) ID
+    - `workflow_run` (object) Workflow run
+      - `id` (string) ID
+      - `version` (string) Version
+      - `status` (string) status of execution, `running` / `succeeded` / `failed` / `stopped`
+      - `error` (string) Optional reason of error
+      - `elapsed_time` (float) total seconds to be used
+      - `total_tokens` (int) tokens to be used
+      - `total_steps` (int) default 0
+      - `created_at` (timestamp) start time
+      - `finished_at` (timestamp) end time
+    - `created_from` (string) Created from
+    - `created_by_role` (string) Created by role
+    - `created_by_account` (string) Optional Created by account
+    - `created_by_end_user` (object) Created by end user
+      - `id` (string) ID
+      - `type` (string) Type
+      - `is_anonymous` (bool) Is anonymous
+      - `session_id` (string) Session ID
+    - `created_at` (timestamp) create time
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Запрос" tag="GET" label="/workflows/logs" targetCode={`curl -X GET '${props.appDetail.api_base_url}/workflows/logs'\\\n --header 'Authorization: Bearer {api_key}'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X GET '${props.appDetail.api_base_url}/workflows/logs?limit=1'
+    --header 'Authorization: Bearer {api_key}'
+    ```
+
+    </CodeGroup>
+    ### Ответ Example
+    <CodeGroup title="Ответ">
+    ```json {{ title: 'Response' }}
+    {
+        "page": 1,
+        "limit": 1,
+        "total": 7,
+        "has_more": true,
+        "data": [
+            {
+                "id": "e41b93f1-7ca2-40fd-b3a8-999aeb499cc0",
+                "workflow_run": {
+                    "id": "c0640fc8-03ef-4481-a96c-8a13b732a36e",
+                    "version": "2024-08-01 12:17:09.771832",
+                    "status": "succeeded",
+                    "error": null,
+                    "elapsed_time": 1.3588523610014818,
+                    "total_tokens": 0,
+                    "total_steps": 3,
+                    "created_at": 1726139643,
+                    "finished_at": 1726139644
+                },
+                "created_from": "service-api",
+                "created_by_role": "end_user",
+                "created_by_account": null,
+                "created_by_end_user": {
+                    "id": "7f7d9117-dd9d-441d-8970-87e5e7e687a3",
+                    "type": "service_api",
+                    "is_anonymous": false,
+                    "session_id": "abc-123"
+                },
+                "created_at": 1726139644
+            }
+        ]
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+---
+
+<Heading
+  url='/info'
+  method='GET'
+  title='Получить базовую информацию о приложении'
+  name='#info'
+/>
+<Row>
+  <Col>
+  Используется для получения базовой информации об этом приложении
+
+  ### Ответ
+  - `name` (string) application name
+  - `description` (string) application description
+  - `tags` (array[string]) application tags
+  </Col>
+  <Col>
+    <CodeGroup title="Запрос" tag="GET" label="/info" targetCode={`curl -X GET '${props.appDetail.api_base_url}/info' \\\n-H 'Authorization: Bearer {api_key}'`}>
+      ```bash {{ title: 'cURL' }}
+      curl -X GET '${props.appDetail.api_base_url}/info' \
+      -H 'Authorization: Bearer {api_key}'
+      ```
+    </CodeGroup>
+    <CodeGroup title="Ответ">
+    ```json {{ title: 'Response' }}
+    {
+      "name": "My App",
+      "description": "This is my app.",
+      "tags": [
+        "tag1",
+        "tag2"
+      ]
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/parameters'
+  method='GET'
+  title='Получить информацию о параметрах приложения'
+  name='#parameters'
+/>
+<Row>
+  <Col>
+    Используется при входе на страницу для получения информации о функциях, именах входных параметров, типах и значениях по умолчанию.
+
+    ### Ответ
+    - `user_input_form` (array[object]) User input form configuration
+      - `text-input` (object) Text input control
+        - `label` (string) Variable display label name
+        - `variable` (string) Variable ID
+        - `required` (bool) Whether it is required
+        - `default` (string) Default value
+      - `paragraph` (object) Paragraph text input control
+        - `label` (string) Variable display label name
+        - `variable` (string) Variable ID
+        - `required` (bool) Whether it is required
+        - `default` (string) Default value
+      - `select` (object) Dropdown control
+        - `label` (string) Variable display label name
+        - `variable` (string) Variable ID
+        - `required` (bool) Whether it is required
+        - `default` (string) Default value
+        - `options` (array[string]) Option values
+    - `file_upload` (object) File upload configuration
+      - `image` (object) Image settings
+        Currently only supports image types: `png`, `jpg`, `jpeg`, `webp`, `gif`
+        - `enabled` (bool) Whether it is enabled
+        - `number_limits` (int) Image number limit, default is 3
+        - `transfer_methods` (array[string]) List of transfer methods, remote_url, local_file, must choose one
+    - `system_parameters` (object) System parameters
+      - `file_size_limit` (int) Document upload size limit (MB)
+      - `image_file_size_limit` (int) Image file upload size limit (MB)
+      - `audio_file_size_limit` (int) Audio file upload size limit (MB)
+      - `video_file_size_limit` (int) Video file upload size limit (MB)
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Запрос" tag="GET" label="/parameters" targetCode={` curl -X GET '${props.appDetail.api_base_url}/parameters'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X GET '${props.appDetail.api_base_url}/parameters' \
+    --header 'Authorization: Bearer {api_key}'
+    ```
+
+    </CodeGroup>
+
+    <CodeGroup title="Ответ">
+    ```json {{ title: 'Response' }}
+    {
+      "user_input_form": [
+          {
+              "paragraph": {
+                  "label": "Query",
+                  "variable": "query",
+                  "required": true,
+                  "default": ""
+              }
+          }
+      ],
+      "file_upload": {
+          "image": {
+              "enabled": false,
+              "number_limits": 3,
+              "detail": "high",
+              "transfer_methods": [
+                  "remote_url",
+                  "local_file"
+              ]
+          }
+      },
+      "system_parameters": {
+          "file_size_limit": 15,
+          "image_file_size_limit": 10,
+          "audio_file_size_limit": 50,
+          "video_file_size_limit": 100
+      }
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+---
+
+<Heading
+  url='/site'
+  method='GET'
+  title='Get Application WebApp Settings'
+  name='#site'
+/>
+<Row>
+  <Col>
+  Used to get the WebApp settings of the application.
+  ### Ответ
+  - `title` (string) WebApp name
+  - `icon_type` (string) Icon type, `emoji` - emoji, `image` - picture
+  - `icon` (string) Icon. If it's `emoji` type, it's an emoji symbol; if it's `image` type, it's an image URL.
+  - `icon_background` (string) Background color in hex format
+  - `icon_url` (string) Icon URL
+  - `description` (string) Description
+  - `copyright` (string) Copyright information
+  - `privacy_policy` (string) Privacy policy link
+  - `custom_disclaimer` (string) Custom disclaimer
+  - `default_language` (string) Default language
+  - `show_workflow_steps` (bool) Whether to show workflow details
+  </Col>
+  <Col>
+  <CodeGroup title="Request" tag="POST" label="/meta" targetCode={`curl -X GET '${props.appDetail.api_base_url}/site' \\\n-H 'Authorization: Bearer {api_key}'`}>
+    ```bash {{ title: 'cURL' }}
+    curl -X GET '${props.appDetail.api_base_url}/site' \
+    -H 'Authorization: Bearer {api_key}'
+    ```
+
+    </CodeGroup>
+
+    <CodeGroup title="Ответ">
+    ```json {{ title: 'Response' }}
+    {
+      "title": "My App",
+      "icon_type": "emoji",
+      "icon": "😄",
+      "icon_background": "#FFEAD5",
+      "icon_url": null,
+      "description": "This is my app.",
+      "copyright": "all rights reserved",
+      "privacy_policy": "",
+      "custom_disclaimer": "All generated by AI",
+      "default_language": "en-US",
+      "show_workflow_steps": false,
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+___

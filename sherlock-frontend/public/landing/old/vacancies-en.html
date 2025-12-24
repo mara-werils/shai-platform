@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script>
+        const allowedHosts = ['shai.pro', 'dev.shai.pro', 'localhost'];
+        if (!allowedHosts.includes(window.location.hostname)) {location.href = '/apps';}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SHAI - Careers</title>
+    <meta name="description" content="Trained on corporate data to accelerate processes, boost productivity, improve service, and ensure 24/7 access">
+    <meta name="robots" content="index, follow">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" type="image/x-icon" href="/landing/favicon.ico">
+    <link rel="canonical" href="https://shai.pro/en/vacancies" />
+
+    <link rel="stylesheet" href="/landing/css/main.css?version=0.0.0.0000009">
+    <link rel="stylesheet" href="/landing/css/style.css?version=0.0.0.00000010">
+    <link rel="stylesheet" href="/landing/css/slick.css">
+    <script src="/landing/js/jquery.js"></script>
+    <script src="/landing/js/popper.js"></script>
+    <script src="/landing/js/bootstrap.js"></script>
+    <script src="/landing/js/iconify.js"></script>
+    <script src="/landing/js/slick.js"></script>
+</head>
+<body class="darkSlide">
+<div id="header"></div>
+<div id="mainBlock">
+
+    <div class="container-fluid faqBlock vacanciesPage">
+        <div id="main-vacancies-block" class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Careers</span></p>
+                    <h1>All vacancies shai.pro</h1>
+                </div>
+            </div>
+            <div class="row" id="vacancies-block"></div>
+        </div>
+
+
+        <div id="vacancy-item-block" class="container d-none">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <button class="defaultButton linkStyle beforeIcon" onclick="$('#main-vacancies-block').removeClass('d-none');$('#vacancy-item-block').addClass('d-none');">
+                        <span class="iconify plus" data-icon="si:arrow-left-line" data-inline="false"></span>
+                        All vacancies
+                    </button>
+                </div>
+                <div class="col-sm-9">
+                    <h2></h2>
+                    <p id="city"></p>
+                </div>
+                <div class="col-sm-3 text-right">
+                    <button class="defaultButton" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeSaUGT2C9tk0UeaNRWsPal9EGqg7lPydKFVwjzkmCQO3anVA/viewform');">
+                        Apply now
+                    </button>
+                </div>
+                <div class="col-sm-12" id="vacancy-body"></div>
+                <div class="col-sm-12">
+                    <button class="defaultButton withMT" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeSaUGT2C9tk0UeaNRWsPal9EGqg7lPydKFVwjzkmCQO3anVA/viewform');">
+                        Apply now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modalMain">
+    <div class="overlay" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"></div>
+    <div class="modalBlock">
+        <p class="label bWeight">Leave a request</p>
+        <button class="close" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+        <form id="mainForm">
+            <p id="forInvestorsText">
+                Want to learn more about our project? Leave your contact details, and we’ll send you a pitch deck with key information about potential collaboration opportunities.
+            </p>
+            <input type="text" id="planName" name="plan" style="display: none">
+            <div class="formGroup">
+                <label for="formName">Your name</label>
+                <input type="text" id="formName" name="name" placeholder="Enter your name">
+            </div>
+            <div class="formGroup companyToggle">
+                <label for="formCompany">Company name</label>
+                <input type="text" id="formCompany" name="company" placeholder="Enter your company name">
+            </div>
+            <div class="formGroup">
+                <label for="formPhone">Phone number</label>
+                <input type="text" id="formPhone" name="phone" placeholder="Enter your phone number">
+            </div>
+            <button type="submit" class="defaultButton">Submit</button>
+        </form>
+        <div class="successBlock">
+            <div class="successIcon">
+                <span class="iconify" data-icon="octicon:check-16" data-inline="false"></span>
+            </div>
+            <p class="successTitle sbWeight">Thank you for reaching out!</p>
+            <p class="text">We will get back to you shortly</p>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+</body>
+<script src="/landing/js/include-en.js"></script>
+<script src="/landing/js/custom.js?version=0.0.0.0000009"></script>
+<script src="/landing/js/vacancies.js?version=0.0.0.0000002"></script>
+</html>

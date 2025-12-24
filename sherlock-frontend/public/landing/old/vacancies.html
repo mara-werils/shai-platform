@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script>
+        const allowedHosts = ['shai.pro', 'dev.shai.pro', 'localhost'];
+        if (!allowedHosts.includes(window.location.hostname)) {location.href = '/apps';}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SHAI - Вакансии</title>
+    <meta name="description" content="Обучение на корпоративных данных, ускорение процессов, повышение продуктивности, улучшение обслуживания и круглосуточный доступ.">
+    <meta name="robots" content="index, follow">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" type="image/x-icon" href="/landing/favicon.ico">
+    <link rel="canonical" href="https://shai.pro/vacancies" />
+
+    <link rel="stylesheet" href="/landing/css/main.css?version=0.0.0.0000009">
+    <link rel="stylesheet" href="/landing/css/style.css?version=0.0.0.00000010">
+    <link rel="stylesheet" href="/landing/css/slick.css">
+    <script src="/landing/js/jquery.js"></script>
+    <script src="/landing/js/popper.js"></script>
+    <script src="/landing/js/bootstrap.js"></script>
+    <script src="/landing/js/iconify.js"></script>
+    <script src="/landing/js/slick.js"></script>
+</head>
+<body class="darkSlide">
+<div id="header"></div>
+<div id="mainBlock">
+
+    <div class="container-fluid faqBlock vacanciesPage">
+        <div id="main-vacancies-block" class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Вакансии</span></p>
+                    <h1>Все вакансии shai.pro</h1>
+                </div>
+            </div>
+            <div class="row" id="vacancies-block"></div>
+        </div>
+
+
+        <div id="vacancy-item-block" class="container d-none">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <button class="defaultButton linkStyle beforeIcon" onclick="$('#main-vacancies-block').removeClass('d-none');$('#vacancy-item-block').addClass('d-none');">
+                        <span class="iconify plus" data-icon="si:arrow-left-line" data-inline="false"></span>
+                        Все вакансии
+                    </button>
+                </div>
+                <div class="col-sm-9">
+                    <h2></h2>
+                    <p id="city"></p>
+                </div>
+                <div class="col-sm-3 text-right">
+                    <button class="defaultButton" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeSaUGT2C9tk0UeaNRWsPal9EGqg7lPydKFVwjzkmCQO3anVA/viewform');">
+                        Подать заявку
+                    </button>
+                </div>
+                <div class="col-sm-12" id="vacancy-body"></div>
+                <div class="col-sm-12">
+                    <button class="defaultButton withMT" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeSaUGT2C9tk0UeaNRWsPal9EGqg7lPydKFVwjzkmCQO3anVA/viewform');">
+                        Подать заявку
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modalMain">
+    <div class="overlay" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"></div>
+    <div class="modalBlock">
+        <p class="label bWeight">Оставить заявку</p>
+        <button class="close" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+        <form id="mainForm">
+            <p id="forInvestorsText">
+                Хотите узнать больше о нашем проекте? Оставьте свои контакты, и мы отправим вам питчдек с ключевой информацией о возможностях сотрудничества
+            </p>
+            <input type="text" id="planName" name="plan" style="display: none">
+            <div class="formGroup">
+                <label for="formName">Ваше имя</label>
+                <input type="text" id="formName" name="name" placeholder="Введите ваше имя">
+            </div>
+            <div class="formGroup companyToggle">
+                <label for="formCompany">Название компании</label>
+                <input type="text" id="formCompany" name="company" placeholder="Введите название компании">
+            </div>
+            <div class="formGroup">
+                <label for="formPhone">Номер телефона</label>
+                <input type="text" id="formPhone" name="phone" placeholder="Введите номер телефона">
+            </div>
+            <button type="submit" class="defaultButton">Записаться</button>
+        </form>
+        <div class="successBlock">
+            <div class="successIcon">
+                <span class="iconify" data-icon="octicon:check-16" data-inline="false"></span>
+            </div>
+            <p class="successTitle sbWeight">Спасибо за обращение!</p>
+            <p class="text">Мы свяжемся с вами в ближайшее время</p>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+</body>
+<script src="/landing/js/include-ru.js"></script>
+<script src="/landing/js/custom.js?version=0.0.0.0000009"></script>
+<script src="/landing/js/vacancies.js?version=0.0.0.0000002"></script>
+</html>

@@ -1,0 +1,9 @@
+/* Sign-in page specific styles */
+
+/* Grey block wrapper for DataProtectionModal */
+.dp-grey-block {
+  position: relative;
+  background: #F9FAFB;
+  padding: 24px;
+  border-radius: 20px;
+}

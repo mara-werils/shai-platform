@@ -1,0 +1,709 @@
+import { CodeGroup } from '../code.tsx'
+import { Row, Col, Properties, Property, Heading, SubProperty, Paragraph } from '../md.tsx'
+
+# API приложения для генерации текста
+
+Приложение для генерации текста поддерживает работу без сессий и идеально подходит для перевода, написания статей, AI-суммаризации и многого другого.
+
+<div>
+  ### Базовый URL
+  <CodeGroup title="Code" targetCode={props.appDetail.api_base_url}>
+    ```javascript
+    ```
+  </CodeGroup>
+
+  ### Аутентификация
+
+  API сервиса использует аутентификацию через `API-Key`.
+  <i>**Настоятельно рекомендуется хранить ваш API-ключ на стороне сервера, не передавать и не хранить его на стороне клиента, чтобы избежать возможной утечки API-ключа, которая может привести к серьезным последствиям.**</i>
+
+  Для всех API-запросов включите ваш API-ключ в HTTP-заголовок `Authorization`, как показано ниже:
+
+  <CodeGroup title="Code">
+    ```javascript
+      Authorization: Bearer {API_KEY}
+
+    ```
+  </CodeGroup>
+</div>
+
+---
+
+<Heading
+  url='/completion-messages'
+  method='POST'
+  title='Создать сообщение для генерации текста'
+  name='#Create-Completion-Message'
+/>
+<Row>
+  <Col>
+    Отправить запрос в приложение для генерации текста.
+
+    ### Тело запроса
+
+    <Properties>
+      
+      <Property name='inputs' type='object' key='inputs'>
+          Позволяет вводить различные значения переменных, определенных приложением.
+          Параметр `inputs` содержит несколько пар ключ/значение, где каждый ключ соответствует конкретной переменной, а каждое значение является конкретным значением для этой переменной.
+          Приложение для генерации текста требует ввода хотя бы одной пары ключ/значение.
+          - `query` (string) Обязательно
+            Входной текст, содержимое для обработки.
+      </Property>
+      <Property name='response_mode' type='string' key='response_mode'>
+        Режим возврата ответа, поддерживает:
+        - `streaming` Режим потоковой передачи (рекомендуется), реализует вывод в стиле печатной машинки через SSE ([Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)).
+        - `blocking` Блокирующий режим, возвращает результат после завершения выполнения. (Запросы могут быть прерваны, если процесс длительный)
+        <i>Из-за ограничений Cloudflare запрос будет прерван без возврата через 100 секунд.</i>
+      </Property>
+      <Property name='user' type='string' key='user'>
+          Идентификатор пользователя, используется для определения личности конечного пользователя для поиска и статистики.
+          Должен быть уникально определен разработчиком в рамках приложения.
+      </Property>
+      <Property name='files' type='array[object]' key='files'>
+          Список файлов, подходит для ввода файлов (изображений) в сочетании с пониманием текста и ответами на вопросы, доступно только когда модель поддерживает возможность Vision.
+          - `type` (string) Поддерживаемый тип: `image` (в настоящее время поддерживается только тип изображения)
+          - `transfer_method` (string) Способ передачи, `remote_url` для URL изображения / `local_file` для загрузки файла
+          - `url` (string) URL изображения (когда способ передачи - `remote_url`)
+          - `upload_file_id` (string) ID загруженного файла, который должен быть получен путем загрузки через API загрузки файлов заранее (когда способ передачи - `local_file`)
+      </Property>
+    </Properties>
+
+    ### Ответ
+    Когда `response_mode` равен `blocking`, возвращается объект CompletionResponse.
+    Когда `response_mode` равен `streaming`, возвращается поток ChunkCompletionResponse.
+
+    ### ChatCompletionResponse
+    Возвращает полный результат приложения, `Content-Type` - `application/json`.
+    - `message_id` (string) Уникальный ID сообщения
+    - `mode` (string) Режим приложения, фиксирован как `chat`
+    - `answer` (string) Полное содержимое ответа
+    - `metadata` (object) Метаданные
+      - `usage` (Usage) Информация об использовании модели
+      - `retriever_resources` (array[RetrieverResource]) Список цитат и атрибуции
+    - `created_at` (int) Временная метка создания сообщения, например, 1705395332
+
+    ### ChunkChatCompletionResponse
+    Возвращает фрагменты потока, выводимые приложением, `Content-Type` - `text/event-stream`.
+    Каждый потоковый фрагмент начинается с `data:`, разделен двумя символами новой строки `\n\n`, как показано ниже:
+    <CodeGroup>
+    ```streaming {{ title: 'Response' }}
+    data: {"event": "message", "task_id": "900bbd43-dc0b-4383-a372-aa6e6c414227", "id": "663c5084-a254-4040-8ad3-51f2a3c1a77c", "answer": "Hi", "created_at": 1705398420}\n\n
+    ```
+    </CodeGroup>
+    Структура потоковых фрагментов варьируется в зависимости от `event`:
+    - `event: message` LLM возвращает событие текстового фрагмента, т.е. полный текст выводится по частям.
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `answer` (string) Содержимое текстового фрагмента, возвращенного LLM
+      - `created_at` (int) Временная метка создания, например, 1705395332
+    - `event: message_end` Событие окончания сообщения, получение этого события означает, что потоковая передача завершена.
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `metadata` (object) Метаданные
+        - `usage` (Usage) Информация об использовании модели
+        - `retriever_resources` (array[RetrieverResource]) Список цитат и атрибуции
+    - `event: tts_message` Событие аудиопотока TTS, то есть вывод синтеза речи. Содержимое представляет собой аудиоблок в формате Mp3, закодированный как строка base64. При воспроизведении просто декодируйте base64 и передайте его в плеер. (Это сообщение доступно только при включенном автовоспроизведении)
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и интерфейса остановки ответа ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `audio` (string) Аудио после синтеза речи, закодированное в текстовом содержимом base64, при воспроизведении просто декодируйте base64 и передайте его в плеер
+      - `created_at` (int) Временная метка создания, например: 1705395332
+    - `event: tts_message_end` Событие окончания аудиопотока TTS, получение этого события указывает на окончание аудиопотока.
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и интерфейса остановки ответа ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `audio` (string) Событие окончания не имеет аудио, поэтому это пустая строка
+      - `created_at` (int) Временная метка создания, например: 1705395332
+    - `event: message_replace` Событие замены содержимого сообщения.
+      Когда включена модерация выходного содержимого, если содержимое помечено, то содержимое сообщения будет заменено предустановленным ответом через это событие.
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `answer` (string) Заменяющее содержимое (напрямую заменяет весь текст ответа LLM)
+      - `created_at` (int) Временная метка создания, например, 1705395332
+    - `event: error`
+      Исключения, возникающие в процессе потоковой передачи, будут выводиться в виде потоковых событий, и получение события ошибки завершит поток.
+      - `task_id` (string) ID задачи, используется для отслеживания запроса и API остановки генерации ниже
+      - `message_id` (string) Уникальный ID сообщения
+      - `status` (int) HTTP код состояния
+      - `code` (string) Код ошибки
+      - `message` (string) Сообщение об ошибке
+    - `event: ping` Событие ping каждые 10 секунд для поддержания соединения активным.
+
+    ### Ошибки
+    - 404, Беседа не существует
+    - 400, `invalid_param`, аномальный ввод параметров
+    - 400, `app_unavailable`, Конфигурация приложения недоступна
+    - 400, `provider_not_initialize`, нет доступной конфигурации учетных данных модели
+    - 400, `provider_quota_exceeded`, квота вызова модели недостаточна
+    - 400, `model_currently_not_support`, текущая модель недоступна
+    - 400, `completion_request_error`, генерация текста не удалась
+    - 500, внутренняя ошибка сервера
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/completion-messages" targetCode={`curl -X POST '${props.appDetail.api_base_url}/completion-messages' \\\n--header 'Authorization: Bearer {api_key}' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{\n    "inputs": {"query": "Hello, world!"},\n    "response_mode": "streaming",\n    "user": "abc-123"\n}'\n`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X POST '${props.appDetail.api_base_url}/completion-messages' \
+    --header 'Authorization: Bearer {api_key}' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "inputs": {
+          "query": "Hello, world!"
+        },
+        "response_mode": "streaming",
+        "user": "abc-123"
+    }'
+    ```
+
+    </CodeGroup>
+    ### Блокирующий режим
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "event": "message",
+      "message_id": "9da23599-e713-473b-982c-4328d4f5c78a",
+      "mode": "completion",
+      "answer": "Hello World!...",
+      "metadata": {
+          "usage": {
+              "prompt_tokens": 1033,
+              "prompt_unit_price": "0.001",
+              "prompt_price_unit": "0.001",
+              "prompt_price": "0.0010330",
+              "completion_tokens": 128,
+              "completion_unit_price": "0.002",
+              "completion_price_unit": "0.001",
+              "completion_price": "0.0002560",
+              "total_tokens": 1161,
+              "total_price": "0.0012890",
+              "currency": "USD",
+              "latency": 0.7682376249867957
+          }
+      },
+      "created_at": 1705407629
+  }
+    ```
+    </CodeGroup>
+    ### Режим потоковой передачи
+    <CodeGroup title="Response">
+    ```streaming {{ title: 'Response' }}
+      data: {"event": "message", "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "answer": " I", "created_at": 1679586595}
+      data: {"event": "message", "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "answer": "'m", "created_at": 1679586595}
+      data: {"event": "message", "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "answer": " glad", "created_at": 1679586595}
+      data: {"event": "message", "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "answer": " to", "created_at": 1679586595}
+      data: {"event": "message", "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "answer": " meet", "created_at": 1679586595}
+      data: {"event": "message", "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "answer": " you", "created_at": 1679586595}
+      data: {"event": "message_end", "id": "5e52ce04-874b-4d27-9045-b3bc80def685", "metadata": {"usage": {"prompt_tokens": 1033, "prompt_unit_price": "0.001", "prompt_price_unit": "0.001", "prompt_price": "0.0010330", "completion_tokens": 135, "completion_unit_price": "0.002", "completion_price_unit": "0.001", "completion_price": "0.0002700", "total_tokens": 1168, "total_price": "0.0013030", "currency": "USD", "latency": 1.381760165997548}}}
+      data: {"event": "tts_message", "conversation_id": "23dd85f3-1a41-4ea0-b7a9-062734ccfaf9", "message_id": "a8bdc41c-13b2-4c18-bfd9-054b9803038c", "created_at": 1721205487, "task_id": "3bf8a0bb-e73b-4690-9e66-4e429bad8ee7", "audio": "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"}
+      data: {"event": "tts_message_end", "conversation_id": "23dd85f3-1a41-4ea0-b7a9-062734ccfaf9", "message_id": "a8bdc41c-13b2-4c18-bfd9-054b9803038c", "created_at": 1721205487, "task_id": "3bf8a0bb-e73b-4690-9e66-4e429bad8ee7", "audio": ""}
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+<Heading
+  url='/files/upload'
+  method='POST'
+  title='Загрузка файла'
+  name='#file-upload'
+/>
+<Row>
+  <Col>
+  Загрузить файл (в настоящее время поддерживаются только изображения) для использования при отправке сообщений, обеспечивая мультимодальное понимание изображений и текста.
+  Поддерживает форматы png, jpg, jpeg, webp, gif.
+  <i>Загруженные файлы предназначены только для использования текущим конечным пользователем.</i>
+
+  ### Тело запроса
+  Этот интерфейс требует запрос `multipart/form-data`.
+  - `file` (File) Обязательно
+    Файл для загрузки.
+  - `user` (string) Обязательно
+    Идентификатор пользователя, определенный правилами разработчика, должен быть уникальным в рамках приложения.
+
+  ### Ответ
+  После успешной загрузки сервер вернет ID файла и связанную информацию.
+  - `id` (uuid) ID
+  - `name` (string) Имя файла
+  - `size` (int) Размер файла (байты)
+  - `extension` (string) Расширение файла
+  - `mime_type` (string) MIME-тип файла
+  - `created_by` (uuid) ID конечного пользователя
+  - `created_at` (timestamp) Временная метка создания, например, 1705395332
+
+  ### Ошибки
+  - 400, `no_file_uploaded`, файл должен быть предоставлен
+  - 400, `too_many_files`, в настоящее время принимается только один файл
+  - 400, `unsupported_preview`, файл не поддерживает предпросмотр
+  - 400, `unsupported_estimate`, файл не поддерживает оценку
+  - 413, `file_too_large`, файл слишком большой
+  - 415, `unsupported_file_type`, неподдерживаемое расширение, в настоящее время принимаются только файлы документов
+  - 503, `s3_connection_failed`, не удалось подключиться к сервису S3
+  - 503, `s3_permission_denied`, нет разрешения на загрузку файлов в S3
+  - 503, `s3_file_too_large`, файл превышает лимит размера S3
+  - 500, внутренняя ошибка сервера
+
+
+  </Col>
+  <Col sticky>
+  ### Пример запроса
+  <CodeGroup title="Request" tag="POST" label="/files/upload" targetCode={`curl -X POST '${props.appDetail.api_base_url}/files/upload' \\\n--header 'Authorization: Bearer {api_key}' \\\n--form 'file=@localfile;type=image/[png|jpeg|jpg|webp|gif]' \\\n--form 'user=abc-123'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X POST '${props.appDetail.api_base_url}/files/upload' \
+    --header 'Authorization: Bearer {api_key}' \
+    --form 'file=@"/path/to/file"'
+    ```
+
+    </CodeGroup>
+
+
+  ### Пример ответа
+  <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "id": "72fa9618-8f89-4a37-9b33-7e1178a24a67",
+      "name": "example.png",
+      "size": 1024,
+      "extension": "png",
+      "mime_type": "image/png",
+      "created_by": "6ad1ab0a-73ff-4ac1-b9e4-cdb312f71f13",
+      "created_at": 1577836800,
+    }
+  ```
+  </CodeGroup>
+  </Col>
+</Row>
+---
+
+<Heading
+  url='/completion-messages/:task_id/stop'
+  method='POST'
+  title='Остановить генерацию'
+  name='#stop-generatebacks'
+/>
+<Row>
+  <Col>
+  Поддерживается только в режиме потоковой передачи.
+  ### Путь
+  - `task_id` (string) ID задачи, может быть получен из возвращаемого потокового фрагмента
+  Тело запроса
+  - `user` (string) Обязательно
+    Идентификатор пользователя, используется для определения личности конечного пользователя, должен совпадать с пользователем, переданным в интерфейсе отправки сообщения.
+  ### Ответ
+  - `result` (string) Всегда возвращает "success"
+  </Col>
+  <Col sticky>
+  ### Пример запроса
+  <CodeGroup title="Request" tag="POST" label="/completion-messages/:task_id/stop" targetCode={`curl -X POST '${props.appDetail.api_base_url}/completion-messages/:task_id/stop' \\\n-H 'Authorization: Bearer {api_key}' \\\n-H 'Content-Type: application/json' \\\n--data-raw '{ "user": "abc-123"}'`}>
+    ```bash {{ title: 'cURL' }}
+    curl -X POST '${props.appDetail.api_base_url}/completion-messages/:task_id/stop' \
+    -H 'Authorization: Bearer {api_key}' \
+    -H 'Content-Type: application/json' \
+    --data-raw '{
+        "user": "abc-123"
+    }'
+    ```
+    </CodeGroup>
+
+    ### Пример ответа
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "result": "success"
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/messages/:message_id/feedbacks'
+  method='POST'
+  title='Обратная связь по сообщению'
+  name='#feedbacks'
+/>
+<Row>
+  <Col>
+    Конечные пользователи могут предоставлять сообщения обратной связи, что помогает разработчикам приложений оптимизировать ожидаемые результаты.
+
+    ### Путь
+    <Properties>
+      <Property name='message_id' type='string' key='message_id'>
+       ID сообщения
+      </Property>
+    </Properties>
+
+    ### Тело запроса
+
+    <Properties>
+      <Property name='rating' type='string' key='rating'>
+        Положительная оценка как `like`, отрицательная оценка как `dislike`, отмена положительной оценки как `null`
+      </Property>
+      <Property name='user' type='string' key='user'>
+        Идентификатор пользователя, определенный правилами разработчика, должен быть уникальным в рамках приложения.
+      </Property>
+      <Property name='content' type='string' key='content'>
+        Конкретное содержимое обратной связи по сообщению.
+      </Property>
+    </Properties>
+
+    ### Ответ
+    - `result` (string) Всегда возвращает "success"
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/messages/:message_id/feedbacks" targetCode={`curl -X POST '${props.appDetail.api_base_url}/messages/:message_id/feedbacks \\\n --header 'Authorization: Bearer {api_key}' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{\n    "rating": "like",\n    "user": "abc-123",\n    "content": "message feedback information"\n}'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X POST '${props.appDetail.api_base_url}/messages/:message_id/feedbacks' \
+    --header 'Authorization: Bearer {api_key}' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "rating": "like",
+        "user": "abc-123",
+        "content": "message feedback information"
+    }'
+    ```
+
+    </CodeGroup>
+
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "result": "success"
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/app/feedbacks'
+  method='GET'
+  title='Получить отзывы приложения'
+  name='#app-feedbacks'
+/>
+<Row>
+  <Col>
+    Получить отзывы приложения.
+
+    ### Запрос
+
+    <Properties>
+      <Property name='page' type='string' key='page'>
+       （необязательно）пагинация，по умолчанию：1
+      </Property>
+    </Properties>
+
+    <Properties>
+      <Property name='limit' type='string' key='limit'>
+       （необязательно） записей на странице по умолчанию：20
+      </Property>
+    </Properties>
+
+    ### Ответ
+    - `data` (List) возвращает список отзывов приложений.
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/app/feedbacks" targetCode={`curl -X GET '${props.appDetail.api_base_url}/app/feedbacks?page=1&limit=20'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X GET '${props.appDetail.api_base_url}/app/feedbacks?page=1&limit=20' \
+    --header 'Authorization: Bearer {api_key}' \
+    --header 'Content-Type: application/json'
+    ```
+
+    </CodeGroup>
+
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+      {
+          "data": [
+              {
+                  "id": "8c0fbed8-e2f9-49ff-9f0e-15a35bdd0e25",
+                  "app_id": "f252d396-fe48-450e-94ec-e184218e7346",
+                  "conversation_id": "2397604b-9deb-430e-b285-4726e51fd62d",
+                  "message_id": "709c0b0f-0a96-4a4e-91a4-ec0889937b11",
+                  "rating": "like",
+                  "content": "message feedback information-3",
+                  "from_source": "user",
+                  "from_end_user_id": "74286412-9a1a-42c1-929c-01edb1d381d5",
+                  "from_account_id": null,
+                  "created_at": "2025-04-24T09:24:38",
+                  "updated_at": "2025-04-24T09:24:38"
+              }
+          ]
+      }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+---
+
+<Heading
+  url='/text-to-audio'
+  method='POST'
+  title='Текст в аудио'
+  name='#audio'
+/>
+<Row>
+  <Col>
+    Преобразование текста в речь.
+
+    ### Тело запроса
+
+    <Properties>
+      <Property name='message_id' type='str' key='message_id'>
+        Для текстовых сообщений, сгенерированных Shai, просто передайте сгенерированный message-id напрямую. Серверная часть будет использовать message-id для поиска соответствующего содержимого и синтезировать голосовую информацию напрямую. Если message_id и text предоставлены одновременно, приоритет отдается message_id.
+      </Property>
+      <Property name='text' type='str' key='text'>
+        Содержимое для генерации речи.
+      </Property>
+      <Property name='user' type='string' key='user'>
+        Идентификатор пользователя, определенный разработчиком, должен обеспечивать уникальность в рамках приложения.
+      </Property>
+    </Properties>
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="POST" label="/text-to-audio" targetCode={`curl -o text-to-audio.mp3 -X POST '${props.appDetail.api_base_url}/text-to-audio' \\\n--header 'Authorization: Bearer {api_key}' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{\n    "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290",\n    "text": "Hello Shai",\n    "user": "abc-123"\n}'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -o text-to-audio.mp3 -X POST '${props.appDetail.api_base_url}/text-to-audio' \
+    --header 'Authorization: Bearer {api_key}' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "message_id": "5ad4cb98-f0c7-4085-b384-88c403be6290",
+        "text": "Hello Shai",
+        "user": "abc-123"
+    }'
+    ```
+    
+    </CodeGroup>
+
+    <CodeGroup title="headers">
+    ```json {{ title: 'headers' }}
+    {
+      "Content-Type": "audio/wav"
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+---
+
+<Heading
+  url='/info'
+  method='GET'
+  title='Получить базовую информацию о приложении'
+  name='#info'
+/>
+<Row>
+  <Col>
+  Используется для получения базовой информации об этом приложении
+
+  ### Ответ
+  - `name` (string) имя приложения
+  - `description` (string) описание приложения
+  - `tags` (array[string]) теги приложения
+  </Col>
+  <Col>
+    <CodeGroup title="Request" tag="GET" label="/info" targetCode={`curl -X GET '${props.appDetail.api_base_url}/info' \\\n-H 'Authorization: Bearer {api_key}'`}>
+      ```bash {{ title: 'cURL' }}
+      curl -X GET '${props.appDetail.api_base_url}/info' \
+      -H 'Authorization: Bearer {api_key}'
+      ```
+    </CodeGroup>
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "name": "My App",
+      "description": "This is my app.",
+      "tags": [
+        "tag1",
+        "tag2"
+      ]
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+
+---
+
+<Heading
+  url='/parameters'
+  method='GET'
+  title='Получить информацию о параметрах приложения'
+  name='#parameters'
+/>
+<Row>
+  <Col>
+    Используется при входе на страницу для получения информации о функциях, именах входных параметров, типах и значениях по умолчанию.
+
+    ### Ответ
+    - `opening_statement` (string) Вступительное заявление
+    - `suggested_questions` (array[string]) Список предлагаемых вопросов для начала
+    - `suggested_questions_after_answer` (object) Предлагать вопросы после включения ответа.
+      - `enabled` (bool) Включено ли это
+    - `speech_to_text` (object) Речь в текст
+      - `enabled` (bool) Включено ли это
+    - `retriever_resource` (object) Цитаты и атрибуция
+      - `enabled` (bool) Включено ли это
+    - `annotation_reply` (object) Ответ с аннотацией
+      - `enabled` (bool) Включено ли это
+    - `user_input_form` (array[object]) Конфигурация формы ввода пользователя
+      - `text-input` (object) Элемент управления вводом текста
+        - `label` (string) Имя метки отображения переменной
+        - `variable` (string) ID переменной
+        - `required` (bool) Является ли обязательным
+        - `default` (string) Значение по умолчанию
+      - `paragraph` (object) Элемент управления вводом текста абзаца
+        - `label` (string) Имя метки отображения переменной
+        - `variable` (string) ID переменной
+        - `required` (bool) Является ли обязательным
+        - `default` (string) Значение по умолчанию
+      - `select` (object) Элемент управления выпадающим списком
+        - `label` (string) Имя метки отображения переменной
+        - `variable` (string) ID переменной
+        - `required` (bool) Является ли обязательным
+        - `default` (string) Значение по умолчанию
+        - `options` (array[string]) Значения опций
+    - `file_upload` (object) Конфигурация загрузки файлов
+      - `image` (object) Настройки изображения
+        В настоящее время поддерживаются только типы изображений: `png`, `jpg`, `jpeg`, `webp`, `gif`
+        - `enabled` (bool) Включено ли это
+        - `number_limits` (int) Лимит количества изображений, по умолчанию 3
+        - `transfer_methods` (array[string]) Список способов передачи, remote_url, local_file, необходимо выбрать один
+    - `system_parameters` (object) Системные параметры
+      - `file_size_limit` (int) Лимит размера загрузки документа (МБ)
+      - `image_file_size_limit` (int) Лимит размера загрузки файла изображения (МБ)
+      - `audio_file_size_limit` (int) Лимит размера загрузки аудиофайла (МБ)
+      - `video_file_size_limit` (int) Лимит размера загрузки видеофайла (МБ)
+
+  </Col>
+  <Col sticky>
+
+    <CodeGroup title="Request" tag="GET" label="/parameters" targetCode={` curl -X GET '${props.appDetail.api_base_url}/parameters'`}>
+
+    ```bash {{ title: 'cURL' }}
+    curl -X GET '${props.appDetail.api_base_url}/parameters' \
+    --header 'Authorization: Bearer {api_key}'
+    ```
+
+    </CodeGroup>
+
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "opening_statement": "Hello!",
+      "suggested_questions_after_answer": {
+          "enabled": true
+      },
+      "speech_to_text": {
+          "enabled": true
+      },
+      "retriever_resource": {
+          "enabled": true
+      },
+      "annotation_reply": {
+          "enabled": true
+      },
+      "user_input_form": [
+          {
+              "paragraph": {
+                  "label": "Query",
+                  "variable": "query",
+                  "required": true,
+                  "default": ""
+              }
+          }
+      ],
+      "file_upload": {
+          "image": {
+              "enabled": false,
+              "number_limits": 3,
+              "detail": "high",
+              "transfer_methods": [
+                  "remote_url",
+                  "local_file"
+              ]
+          }
+      },
+      "system_parameters": {
+          "file_size_limit": 15,
+          "image_file_size_limit": 10,
+          "audio_file_size_limit": 50,
+          "video_file_size_limit": 100
+      }
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+---
+
+<Heading
+  url='/site'
+  method='GET'
+  title='Получить настройки WebApp приложения'
+  name='#site'
+/>
+<Row>
+  <Col>
+  Используется для получения настроек WebApp приложения.
+  ### Ответ
+  - `title` (string) Имя WebApp
+  - `chat_color_theme` (string) Цветовая тема чата, в формате hex
+  - `chat_color_theme_inverted` (bool) Инвертирована ли цветовая тема чата
+  - `icon_type` (string) Тип иконки, `emoji` - эмодзи, `image` - картинка
+  - `icon` (string) Иконка. Если это тип `emoji`, это символ эмодзи; если это тип `image`, это URL изображения.
+  - `icon_background` (string) Цвет фона в формате hex
+  - `icon_url` (string) URL иконки
+  - `description` (string) Описание
+  - `copyright` (string) Информация об авторских правах
+  - `privacy_policy` (string) Ссылка на политику конфиденциальности
+  - `custom_disclaimer` (string) Пользовательский отказ от ответственности
+  - `default_language` (string) Язык по умолчанию
+  - `show_workflow_steps` (bool) Показывать ли детали workflow
+  - `use_icon_as_answer_icon` (bool) Заменять ли 🤖 в чате на иконку WebApp
+  </Col>
+  <Col>
+  <CodeGroup title="Request" tag="POST" label="/meta" targetCode={`curl -X GET '${props.appDetail.api_base_url}/site' \\\n-H 'Authorization: Bearer {api_key}'`}>
+    ```bash {{ title: 'cURL' }}
+    curl -X GET '${props.appDetail.api_base_url}/site' \
+    -H 'Authorization: Bearer {api_key}'
+    ```
+
+    </CodeGroup>
+
+    <CodeGroup title="Response">
+    ```json {{ title: 'Response' }}
+    {
+      "title": "My App",
+      "chat_color_theme": "#ff4a4a",
+      "chat_color_theme_inverted": false,
+      "icon_type": "emoji",
+      "icon": "😄",
+      "icon_background": "#FFEAD5",
+      "icon_url": null,
+      "description": "This is my app.",
+      "copyright": "all rights reserved",
+      "privacy_policy": "",
+      "custom_disclaimer": "All generated by AI",
+      "default_language": "en-US",
+      "show_workflow_steps": false,
+      "use_icon_as_answer_icon": false,
+    }
+    ```
+    </CodeGroup>
+  </Col>
+</Row>
+___

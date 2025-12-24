@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script>
+        const allowedHosts = ['shai.pro', 'dev.shai.pro', 'localhost'];
+        if (!allowedHosts.includes(window.location.hostname)) {location.href = '/apps';}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SHAI — платформа для AI-помощников, которые понимают ваш бизнес и отвечают на запросы за секунды</title>
+    <meta name="description" content="Обучение на корпоративных данных, ускорение процессов, повышение продуктивности, улучшение обслуживания и круглосуточный доступ.">
+    <meta name="robots" content="index, follow">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" type="image/x-icon" href="/landing/favicon.ico">
+    <link rel="canonical" href="https://shai.pro/" />
+
+    <link rel="stylesheet" href="/landing/css/main.css?version=0.0.0.00000020">
+    <link rel="stylesheet" href="/landing/css/slick.css">
+    <script src="/landing/js/jquery.js"></script>
+    <script src="/landing/js/popper.js"></script>
+    <script src="/landing/js/bootstrap.js"></script>
+    <script src="/landing/js/iconify.js"></script>
+    <script src="/landing/js/slick.js"></script>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="SHAI — платформа для AI-помощников, которые понимают ваш бизнес и отвечают на запросы за секунды" />
+    <meta property="og:description" content="Обучение на корпоративных данных, ускорение процессов, повышение продуктивности, улучшение обслуживания и круглосуточный доступ." />
+    <meta property="og:url" content="https://shai.pro/">
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://shai.pro/preview.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="SHAI Pro" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SHAI — платформа для AI-помощников, которые понимают ваш бизнес и отвечают на запросы за секунды" />
+    <meta name="twitter:description" content="Обучение на корпоративных данных, ускорение процессов, повышение продуктивности, улучшение обслуживания и круглосуточный доступ." />
+    <meta name="twitter:image" content="https://shai.pro/preview.jpg" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6J6SRP7LM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-T6J6SRP7LM');
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(100882374, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/100882374" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W3JWMWJ5');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body class="darkSlide">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3JWMWJ5"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="header"></div>
+
+<div id="main-block">
+    <div class="container-fluid firstBlock">
+        <div class="homeSlick">
+            <div>
+                <div class="container">
+                    <img src="/landing/img/mob.png" alt="" class="bkg d-block d-sm-none">
+                    <div class="bkgBlock d-none d-sm-block">
+                        <video autoplay muted loop>
+                            <source src="/landing/img/1.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-2 text-center">
+                            <h1>
+                                AI-инфраструктура для вашего <br>бизнеса: от AI агентов до <br>расширенной платформы
+                            </h1>
+                            <p class="text">
+                                Наши продукты помогают бизнесу работать быстрее,<br>
+                                эффективнее и умнее
+                            </p>
+
+                            <button class="defaultButton whiteStyle" onclick="showFormModal()">Записаться на демо</button>
+                            <button class="defaultButton transparentStyle" onclick="window.location.href='/404'">Как это работает?</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            <div>-->
+<!--                <div class="container paddingNone" onclick="window.open('https://b24-9puhl6.bitrix24.site/crm_form_zh2iu/')">-->
+<!--                    <img src="/landing/img/slide2.png" alt="" class="slideImage d-none d-sm-block">-->
+<!--                    <img src="/landing/img/mob2.png" alt="" class="slideImage d-block d-sm-none">-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+<!--        <div class="container controlPanel">-->
+<!--            <div class="row align-items-center">-->
+<!--                <div class="col-sm-6 col-6">-->
+<!--                    <div id="lines">-->
+<!--                        <div class="line step1 filled"></div>-->
+<!--                        <div class="line step2"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-sm-6 col-6 text-right">-->
+<!--                    <button class="arrows left" onclick="$('.homeSlick').slick('prev')">-->
+<!--                        <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span>-->
+<!--                    </button>-->
+<!--                    <button class="arrows right" onclick="$('.homeSlick').slick('next')">-->
+<!--                        <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+
+    <div class="container aboutBlock">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="block">
+                    <img src="/landing/img/logo-big.svg" alt="" class="logo">
+                    <p class="description">
+                        это AI-платформа с гибкой архитектурой и собственной лабораторией R&D,<br>
+                        где создается и расширяется продуктовая экосистема интеллектуальных агентов<br>
+                        для автоматизации бизнес-процессов
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid advantagesBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="headLabel darkStyle">Преимущества платформы</p>
+                    <h2>Почему компании выбирают shai.pro?</h2>
+                </div>
+            </div>
+            <div class="row customStyle">
+                <div class="col-sm-3">
+                    <div class="block">
+                        <p class="num">1</p>
+                        <p class="name bWeight">Гибкая кастомизация под отрасль</p>
+                        <p class="text">Адаптация AI агентов shai.pro или создание нового AI агента под проблемы и задачи любой отрасли</p>
+                        <button class="defaultButton darkStyle" onclick="window.location.href='/404'">Агенты SHAI</button>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block">
+                        <p class="num">2</p>
+                        <p class="name bWeight">Абсолютная защита данных</p>
+                        <p class="text">Поддержка гибкой архитектуры развертывания от корпоративного облака (Saas) до приватных серверов (On-Premise) c шифрованием данных и защитой LLM- моделей.</p>
+                        <button class="defaultButton darkStyle" onclick="window.location.href='/404'">Наши кейсы</button>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block">
+                        <p class="num">3</p>
+                        <p class="name bWeight">Интеллектуальная автоматизация любых бизнес-процессов</p>
+                        <p class="text">Подключите shai.pro к CRM, ERP и BI-системам для расширенного анализа и управления данными</p>
+                        <button class="defaultButton darkStyle" onclick="window.location.href='/404'">Интеграции</button>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block">
+                        <p class="num">4</p>
+                        <p class="name bWeight">Экспертная поддержка и локализация — 24/7</p>
+                        <p class="text">Экспертная команда помогает на каждом этапе — от внедрения до ежедневной работы. Всегда на связи</p>
+                        <button class="defaultButton darkStyle" onclick="window.location.href='/404'">Служба поддержки</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid startBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="headLabel">Как начать работу с SHAI.PRO</p>
+                    <h2>Пошаговый процесс</h2>
+                    <p class="text">от первого знакомства до постоянного сотрудничества</p>
+                </div>
+                <div class="col-sm-12">
+                    <div class="stepBlock">
+                        <p class="num">1</p>
+                        <p class="text">Сначала мы проводим бизнес-анализ, чтобы помочь вам чётко сформулировать запрос и определить, какие процессы действительно стоит автоматизировать с помощью искусственного интеллекта.</p>
+                    </div>
+                    <div class="stepBlock">
+                        <p class="num">2</p>
+                        <p class="text">После этого мы предлагаем два пути внедрения AI-агентов — выбирайте тот формат, который больше подходит вашей компании:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row customStyle">
+                <div class="col-sm-3">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="famicons:flash" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">Smart Start</p>
+                            <p class="text">
+                                Для быстрого старта с 1
+                                AI-агентом под ваши задачи.
+                                Идеально для теста: запуск одного агента, подключение
+                                к вашим системам и Saas доступ.
+                                Быстро. Просто. Проверено
+                            </p>
+                        </div>
+                        <div class="bottom">
+                            <p class="price">от <span class="bWeight">8,7 млн ₸</span> в год</p>
+                            <button class="defaultButton lightStyle" onclick="showFormModal()">Записаться на демо</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="ion:speedometer" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">AI Booster</p>
+                            <p class="text">
+                                Ускорьте процессы
+                                с 3 AI-агентами
+                                Готовое решение с 3 агентами, интеграцией в текущую IT инфраструктуру и подключением к платформе
+                            </p>
+                        </div>
+                        <div class="bottom">
+                            <p class="price">от <span class="bWeight">22,7 млн ₸</span> в год</p>
+                            <button class="defaultButton lightStyle" onclick="showFormModal()">Записаться на демо</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="solar:rocket-bold" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">Advanced SaaS</p>
+                            <p class="text">
+                                Полноценная AI-платформа
+                                в облаке 5 агентов + доступ
+                                к расширенным возможностям платформы.
+                                Гибко масштабируется, поддерживается 24/7.
+                                Мощь платформы — без забот о серверах
+                            </p>
+                        </div>
+                        <div class="bottom">
+                            <p class="price">от <span class="bWeight">44,7 млн ₸</span> в год</p>
+                            <button class="defaultButton lightStyle" onclick="showFormModal()">Записаться на демо</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="fluent:planet-32-filled" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">Advanced On-premise</p>
+                            <p class="text">
+                                AI-платформа внутри вашей инфраструктуры
+                                Полный контроль: 5 агентов, приватное хранилище, кастомизация и безопасность корпоративного уровня.
+                                Для тех, кто выбирает суверенность и автономию
+                            </p>
+                        </div>
+                        <div class="bottom">
+                            <p class="price">от <span class="bWeight">58 млн ₸</span> в год</p>
+                            <button class="defaultButton lightStyle" onclick="showFormModal()">Записаться на демо</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid agentsBlock">
+        <img src="/landing/img/bkg3.png" alt="" class="bkg">
+        <div class="container">
+            <div class="row customStyle">
+                <div class="col-sm-12 text-center">
+                    <h3>AI агенты SHAI.pro</h3>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="mage:box-check-fill" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">SHAI Compliance AI</p>
+                            <p class="text">
+                                Контролирует соответствие документов международным и отраслевым стандартам (ISO, ГОСТ, API, ASME) с функцией генерации СОП.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="garden:headset-fill-16" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">SHAI Service Desk AI</p>
+                            <p class="text">
+                                Агент для автоматизации поддержки и обработки запросов в службу поддержки.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="mynaui:search-waves-solid" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">SHAI News Agent</p>
+                            <p class="text">
+                                Агент для мониторинга новостей, приоритизации, выявления рисков или возможностей.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="fluent:mail-error-20-filled" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">SHAI Law Complaints Agent</p>
+                            <p class="text">
+                                Агент для обработки жалоб в соответствии с нормативами, законами и технической спецификацией.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 mt">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="streamline:voice-mail-solid" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">SHAI Voice Assistant Agent</p>
+                            <p class="text">
+                                Голосовой агент с возможностью транскрибации аудиофайлов с собраний, встреч в Teams, Zoom и других системах.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 mt">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="solar:checklist-minimalistic-bold" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">SHAI Summarization Agent</p>
+                            <p class="text">
+                                Агент, собирающий по таймеру переписку из корпоративных чатов и Telegram и выдающий краткие резюме.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 mt">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="streamline-ultimate:data-file-graph-bold" data-inline="false"></span></div>
+                        <div class="content">
+                            <p class="name bWeight">SHAI Report Generator Agent</p>
+                            <p class="text">
+                                Агент для генерации драфтовых и шаблонных PDF-отчётов.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="line"></div>
+                </div>
+
+                <div class="col-sm-12 text-center">
+                    <h3>Tools</h3>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="greenBlock" onclick="window.location.href='/404'">
+                        <p class="name bWeight">SHAI AI Moderator Tool </p>
+                        <p class="text">
+                            Агент для фильтрации и контроля запросов к большим языковым моделям (LLM).
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="greenBlock" onclick="window.location.href='/404'">
+                        <p class="name bWeight">SHAI OCR Tool</p>
+                        <p class="text">
+                            Агент для распознавания текстов в сканах и изображениях.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="greenBlock" onclick="window.location.href='/404'">
+                        <p class="name bWeight">SHAI Memory Management Tool</p>
+                        <p class="text">
+                            Слой памяти ИИ между сессиями и чатами. Слой памяти для персонализированного ИИ.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid partnerBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h3>Партнеры и клиенты</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="partnersList">
+                    <div class="item"><img src="/landing/img/partners/1.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/2.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/3.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/4.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/5.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/6.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/7.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/8.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/10.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partners/11.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid solutionsBlock">
+        <div class="container">
+            <div class="row customStyle">
+                <div class="col-sm-12 text-center">
+                    <h4>Отраслевые решения</h4>
+                </div>
+                <div class="col-sm-3 col-6">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="fa7-solid:bank" data-inline="false"></span></div>
+                        <p class="name bWeight">Финансы и банки</p>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-6">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="gridicons:science" data-inline="false"></span></div>
+                        <p class="name bWeight">Наука и исследования</p>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-6">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="si:memory-fill" data-inline="false"></span></div>
+                        <p class="name bWeight">Технологии и IT</p>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-6">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="streamline-plump:graduation-cap-solid" data-inline="false"></span></div>
+                        <p class="name bWeight">Образование</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6 mt">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="flowbite:building-solid" data-inline="false"></span></div>
+                        <p class="name bWeight">Недвижимость и строительство</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6 mt">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="map:local-government" data-inline="false"></span></div>
+                        <p class="name bWeight">Государственный сектор</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 mt">
+                    <div class="block">
+                        <div class="icon"><span class="iconify plus" data-icon="material-symbols:manufacturing-rounded" data-inline="false"></span></div>
+                        <p class="name bWeight">Производство</p>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="line"></div>
+                </div>
+
+                <div class="col-sm-12 text-center">
+                    <h4>Решения для департаментов</h4>
+                </div>
+
+                <div class="col-sm-4 col-6">
+                    <div class="block secondStyle">
+                        <div class="icon"><span class="iconify plus" data-icon="basil:bullhorn-solid" data-inline="false"></span></div>
+                        <p class="name bWeight">Маркетинг</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6">
+                    <div class="block secondStyle">
+                        <div class="icon"><span class="iconify plus" data-icon="fa7-solid:legal" data-inline="false"></span></div>
+                        <p class="name bWeight">Юридический отдел</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6">
+                    <div class="block secondStyle">
+                        <div class="icon"><span class="iconify plus" data-icon="streamline-plump:tool-box-solid" data-inline="false"></span></div>
+                        <p class="name bWeight">Операционный отдел</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-6 mt">
+                    <div class="block secondStyle">
+                        <div class="icon"><span class="iconify plus" data-icon="fa6-solid:handshake-simple" data-inline="false"></span></div>
+                        <p class="name bWeight">Продажи</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 mt">
+                    <div class="block secondStyle">
+                        <div class="icon"><span class="iconify plus" data-icon="fluent:people-24-filled" data-inline="false"></span></div>
+                        <p class="name bWeight">HR</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid blogBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="headLabel">Блог</p>
+                    <h4>Новости SHAI</h4>
+                </div>
+            </div>
+        </div>
+        <div id="postsScroll" class="postsList"></div>
+
+        <button class="defaultButton viewAll" onclick="window.location.href='https://blog.shai.pro/'">Перейти в Блог</button>
+    </div>
+
+    <div class="container futureBlock">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="block">
+                    <img src="/landing/img/bkg2.jpg" alt="" class="bkg">
+                    <h4>
+                        Будущее начинается с <br>действия — сделайте свой <br>первый шаг вместе с нами
+                    </h4>
+                    <button class="defaultButton whiteStyle" onclick="showFormModal()">Записаться на демо</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid faqBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="headLabel">FAQ</p>
+                    <h5>Часто задаваемые вопросы</h5>
+                </div>
+                <div class="col-sm-6 offset-sm-3">
+                    <div class="faqList">
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Как начать работу с shai.pro?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                1. Свяжитесь с нами – Оставьте заявку на консультацию через наш сайт.<br><br>
+                                2. Анализ потребностей – Мы поможем определить подходящий тариф, настройку и интеграцию.<br><br>
+                                3. Запуск и настройка – Наша команда обучит платформу на ваших данных, протестирует и внедрит её в вашу компанию.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Какие форматы документов поддерживает shai.pro?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Shai.pro работает с такими форматами, как DOCX, EXCEL, PPTX, IMAGE, PDF, TXT, MD, JSON и HTML.<br><br>
+                                Если ваш формат отличается, свяжитесь с нами для уточнения.
+                            </p>
+                        </div>
+
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Какие модели поддерживает shai.pro?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Мы поддерживаем все популярные LLM-модели, включая:<br>
+                                GPT от OpenAI (GPT-3.5, GPT-4, GPT-4 Turbo, GPT-4o), Mistral, Groq, Gemini, LLaMA от Meta и Claude от Anthropic.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Можно ли интегрировать shai.pro с нашими системами?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Да, shai.pro поддерживает интеграцию с CRM, ERP, BI и другими системами документооборота.<br><br>
+                                Главное, чтобы используемые платформы поддерживали подключение через API.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Можем ли мы сами создать AI-помощника?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Да, вы можете создать собственного AI-помощника. Мы предоставляем подробные руководства, обучающие материалы и техническую поддержку.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Можно ли настроить ответы в корпоративном стиле?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Да, предоставьте примеры вашего фирменного стиля, и мы настроим shai.pro так, чтобы его ответы соответствовали корпоративной политике.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Можем ли мы использовать несколько AI-помощников для разных отделов?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Да, shai.pro поддерживает создание отдельных AI-помощников для каждого отдела или задачи. У каждого помощника может быть собственная база знаний.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Может ли вся команда работать с одним ассистентом?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Да, shai.pro поддерживает многопользовательский режим. Это позволяет всей команде одновременно работать с одним AI-ассистентом.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Насколько точны ответы shai.pro?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Точность ответов зависит от качества предоставленных данных, обучения AI и регулярного обновления базы знаний. Мы тестируем модель, чтобы обеспечить максимальную релевантность и точность.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Есть ли ограничения на количество запросов или пользователей?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Shai.pro масштабируется под ваши задачи и поддерживает большое количество запросов и пользователей. Ограничения могут зависеть только от выбранного тарифного плана.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Сколько стоит shai.pro?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Стоимость зависит от объёма базы знаний, количества пользователей и требований к настройке и интеграции. Свяжитесь с нами, чтобы получить индивидуальный расчет и подобрать тариф.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <p class="name sbWeight">
+                                Сколько времени занимает настройка shai.pro?
+                                <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            </p>
+                            <p class="text">
+                                Настройка платформы занимает от 1 до 3 недель, в зависимости от объема данных и сложности задач.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="footer"></div>
+
+</body>
+
+<script src="/landing/js/include-ru.js"></script>
+<script src="/landing/js/main-scripts.js?version=0.0.0.0000002"></script>
+<script src="/landing/js/common-scripts.js"></script>
+</html>

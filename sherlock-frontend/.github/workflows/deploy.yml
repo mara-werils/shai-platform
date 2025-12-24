@@ -1,0 +1,70 @@
+name: Deploy to Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Выберите прод'
+        required: true
+        type: choice
+        options:
+          - prod-cloud
+          - prod-unibridge
+          - prod-ktzh
+      tag:
+        description: 'Введите тег коммита'
+        required: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: aggregain/sherlock-frontend
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Установка SSH-параметров
+        id: vars
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "prod-cloud" ]]; then
+            {
+              echo "host=${{ secrets.SSH_PROD_CLOUD_HOST }}"
+              echo "user=${{ secrets.SSH_PROD_CLOUD_USER }}"
+              echo "key<<EOF"
+              echo "${{ secrets.SSH_PROD_CLOUD_KEY }}"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event.inputs.environment }}" == "prod-unibridge" ]]; then
+            {
+              echo "host=${{ secrets.SSH_PROD_UNIBRIDGE_HOST }}"
+              echo "user=${{ secrets.SSH_PROD_UNIBRIDGE_USER }}"
+              echo "key<<EOF"
+              echo "${{ secrets.SSH_PROD_UNIBRIDGE_KEY }}"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          elif [[ "${{ github.event.inputs.environment }}" == "prod-ktzh" ]]; then
+            {
+              echo "host=${{ secrets.SSH_PROD_KTZH_HOST }}"
+              echo "user=${{ secrets.SSH_PROD_KTZH_USER }}"
+              echo "key<<EOF"
+              echo "${{ secrets.SSH_PROD_KTZH_KEY }}"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set short sha
+        uses: benjlevesque/short-sha@v3.0
+        id: short-sha
+        with:
+          length: 7
+          
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ steps.vars.outputs.host }}
+          username: ${{ steps.vars.outputs.user }}
+          key: ${{ steps.vars.outputs.key }}
+          script: |
+            echo ${{ secrets.CICD_TOKEN }} |
+            docker login ghcr.io -u ${{ secrets.CICD_ACTOR }} --password-stdin |
+            IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:master-${{steps.short-sha.outputs.sha}} docker stack deploy --with-registry-auth -c /data/sherlock/web.yml --prune web

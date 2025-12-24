@@ -1,0 +1,8 @@
+host             = "0.0.0.0"
+ssh_user         = "admin"
+private_key_path = "./key.pem"
+volume_path      = "/mnt/disks/storage"
+web_image        = "ghcr.io/aggregain/sherlock-frontend:master-xxxxxxx"
+api_image        = "ghcr.io/aggregain/sherlock-backend:master-xxxxxxx"
+github_username  = "GH_USER"
+github_token     = "GH_TOKEN"

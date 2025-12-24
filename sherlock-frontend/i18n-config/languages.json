@@ -1,0 +1,25 @@
+{
+  "languages": [
+    {
+      "value": "en-US",
+      "name": "English (United States)",
+      "prompt_name": "English",
+      "example": "Hello, Dify!",
+      "supported": true
+    },
+    {
+      "value": "ru-RU",
+      "name": "Русский (Россия)",
+      "prompt_name": "Russian",
+      "example": " Привет, Dify!",
+      "supported": true
+    },
+    {
+      "value": "kk-KZ",
+      "name": "Қазақ (Қазақстан)",
+      "prompt_name": "Kazakh",
+      "example": "Сәлем, Shai!",
+      "supported": true
+    }
+  ]
+}
