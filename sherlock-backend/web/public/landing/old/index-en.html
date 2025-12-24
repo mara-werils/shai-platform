@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script>
+        const allowedHosts = ['shai.pro', 'dev.shai.pro', 'localhost'];
+        if (!allowedHosts.includes(window.location.hostname)) {location.href = '/apps';}
+    </script>
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="/landing/css/main.css?version=0.0.0.0000009">
+    <link rel="stylesheet" href="/landing/css/style.css?version=0.0.0.00000010">
+    <link rel="stylesheet" href="/landing/css/slick.css">
+</head>
+<body class="darkSlide">
+
+<style>
+    html, body{overflow: auto!important; height: auto!important;}
+</style>
+
+<div id="header"></div>
+
+<div id="mainBlock">
+
+    <div class="container-fluid firstBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-6 offset-sm-3 text-center">
+                    <h1>
+                        AI assistants that <br>understand your business<br> and respond in seconds
+                    </h1>
+                    <p class="text">
+                        Trained on corporate data to accelerate processes, <br>
+                        boost productivity, improve service, and ensure 24/7 access
+                    </p>
+                    <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('');">Book a Demo</button>
+                    <button class="defaultButton transparent" onclick="slowScroll('.priceBlock');">Learn Pricing</button>
+                </div>
+                <div class="col-sm-12">
+                    <img src="/landing/img/en/main.png" alt="" class="mainImage">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid aboutBlock">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>About the Platform</span></p>
+                    <h2>What is shai.pro?</h2>
+                </div>
+                <div class="col-sm-12">
+                    <div class="bkgBlock">
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <img class="d-none d-sm-block" src="/landing/img/en/about.png" alt="">
+                                <img class="d-block d-sm-none" src="/landing/img/en/about-mob.png" alt="">
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="text bWeight">
+                                    It’s an AI assistant platform that understands your business and delivers fast, accurate answers based on your corporate data.
+                                </p>
+                                <p class="text">
+                                    It combines search and intelligent chat to instantly find the right information in your knowledge base, complete with source references. With flexible indexing and multilingual support, shai.pro accelerates workflows, boosts productivity, and helps manage large volumes of information.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid processBlock">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>How It Works</span></p>
+                    <h2>Step-by-step Process</h2>
+                </div>
+                <div class="col-sm-12">
+                    <div class="tabs">
+                        <button id="processTab1" class="active">Upload documents to the knowledge base</button>
+                        <button id="processTab2">Document indexing</button>
+                        <button id="processTab3">Query via search or chat</button>
+                        <button id="processTab4">Instant access to results with source citations</button>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="tabBody processTab1 opened">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Upload documents to the <br>knowledge base
+                                </p>
+                                <p class="text">
+                                    Upload files to the knowledge base (supported formats: PDF, DOCX, XLS, TXT, CSV, PPTX, and others) for further processing.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabBody processTab2">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Document indexing
+                                </p>
+                                <p class="text">
+                                    Processing and structuring uploaded data with the creation of vector representations, enabling precise search and fast responses in chat.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabBody processTab3">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Query via search or chat
+                                </p>
+                                <p class="text">
+                                    Users can either search for the information using a search bar or ask questions in chat, receiving fast and accurate answers.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabBody processTab4">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Instant access to results with <br>source citations
+                                </p>
+                                <p class="text">
+                                    Shai.pro provides links to original documents and data, allowing employees to easily verify and validate information.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid advantagesBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Benefits</span></p>
+                    <h3>Why do companies choose shai.pro?</h3>
+                </div>
+                <div class="col-sm-12">
+                    <div class="advantagesList">
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Time Savings
+                            </p>
+                            <p class="text">
+                                Instant search and chat speed up access to data, reducing manual work
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Answer Accuracy
+                            </p>
+                            <p class="text">
+                                Each response includes a source reference, ensuring reliability
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Multilingual Support
+                            </p>
+                            <p class="text">
+                                Works with documents in multiple languages, simplifying collaboration for global teams
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Integration with Corporate Systems
+                            </p>
+                            <p class="text">
+                                Connect shai.pro to CRM, ERP, and BI systems for advanced analytics and data management
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                User-Friendly Interface
+                            </p>
+                            <p class="text">
+                                An intuitive search and chat experience that requires no special training
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid casesBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Use Cases</span></p>
+                    <h3>How companies are using shai.pro</h3>
+                </div>
+                <div class="col-sm-12 relativeBlock">
+                    <button class="arrow left" onclick="$('.casesSlick').slick('prev')">
+                        <span class="iconify" data-icon="mingcute:down-line" data-inline="false"></span>
+                    </button>
+                    <button class="arrow right" onclick="$('.casesSlick').slick('next')">
+                        <span class="iconify" data-icon="mingcute:down-line" data-inline="false"></span>
+                    </button>
+                    <div class="casesSlick">
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case1.jpg" alt="">
+                                <p class="name bWeight">
+                                    Healthcare & Pharmaceuticals
+                                </p>
+                                <a href="/en/shai-cases?category=1"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case2.jpg" alt="">
+                                <p class="name bWeight">
+                                    Finance and Investments
+                                </p>
+                                <a href="/en/shai-cases?category=2"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case3.jpg" alt="">
+                                <p class="name bWeight">
+                                    Industry and Standardization
+                                </p>
+                                <a href="/en/shai-cases?category=3"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case4.jpg" alt="">
+                                <p class="name bWeight">
+                                    Public Sector
+                                </p>
+                                <a href="/en/shai-cases?category=4"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case5.jpg" alt="">
+                                <p class="name bWeight">
+                                    Education
+                                </p>
+                                <a href="/en/shai-cases?category=5"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid priceBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Pricing & Terms</span></p>
+                    <h3>Connection pricing and terms</h3>
+                    <div class="periodButtons">
+                        <button class="active" onclick="$('.periodButtons>button').removeClass('active');$(this).addClass('active');$('.forMonth').show();$('.forYear').hide();">Per month</button>
+                        <button onclick="$('.periodButtons>button').removeClass('active');$(this).addClass('active');$('.forYear').show();$('.forMonth').hide();">Per year</button>
+                    </div>
+                    <p class="forYearTitle">Annual plan with 20% discount</p>
+                    <div class="mobileButtonsList d-block d-sm-none">
+                        <button id="plan1" class="defaultButton light">Pilot</button>
+                        <button id="plan2" class="defaultButton light active">Business</button>
+                        <button id="plan3" class="defaultButton light">Enterprise Dedicated</button>
+                        <button id="plan4" class="defaultButton light">On-Premise</button>
+                        <button id="plan5" class="defaultButton light">AI Assistant Setup</button>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="bkgBlock">
+                        <div class="row customRow">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block styleBlue plan1">
+                                    <p class="name sbWeight">
+                                        Pilot
+                                    </p>
+                                    <p class="price forMonth">
+                                        from <span class="sbWeight">₸1 400 000</span>
+                                    </p>
+                                    <p class="price forYear">
+                                        from <span class="sbWeight">₸1 400 000</span>
+                                    </p>
+                                    <div class="textList">
+                                        <p>
+                                            Up to 10 users
+                                        </p>
+                                        <p>
+                                            Vector storage: 2 GB
+                                        </p>
+                                        <p>
+                                            Max number of documents: up to 100
+                                        </p>
+                                        <p>
+                                            Pilot duration: 1 month
+                                        </p>
+                                        <p>
+                                            Chat support
+                                        </p>
+                                        <p>
+                                            Token usage for 4th-gen models included (~9,000 queries)
+                                        </p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Pilot');">Submit request</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block styleOrange plan2 active">
+                                    <p class="name sbWeight">
+                                        Business
+                                    </p>
+                                    <p class="price forMonth">
+                                        from <span class="sbWeight">₸1 200 000</span> / month
+                                    </p>
+                                    <p class="price forYear">
+                                        from <span class="sbWeight">₸12 000 000</span> / year
+                                    </p>
+                                    <div class="textList">
+                                        <p>
+                                            Number of custom agents you can create: 10
+                                        </p>
+                                        <p>
+                                            Number of users: 20
+                                        </p>
+                                        <p>
+                                            Number of super-users: 3
+                                        </p>
+                                        <p>
+                                            Number of requests: 10 000 included, unlimited via own API
+                                        </p>
+                                        <p>
+                                            Number of Workspaces: 1
+                                        </p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton transparent" onclick="$('.businessDialog').show();$('body').addClass('modalOpened');">Learn more</button>
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Business');">Submit request</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="businessDialog caseModal pricingDialog">
+                                <div class="overlay" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"></div>
+                                <div class="contentBlock">
+                                    <button class="close" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+                                    <div class="caseInfoBox">
+                                        <p class="name bWeight">
+                                            Business
+                                            <span class="price">
+                                                from <b class="sbWeight">₸12 000 000</b> / year
+                                            </span>
+                                        </p>
+                                        <p class="text brown">
+                                            RAG – Intelligent Search and Answer Generation Based on Your Corporate Knowledge Base
+                                        </p>
+                                        <p class="text">
+                                            <b>Features:</b>
+                                            <span>Bulk Upload</span>
+                                            <span>Support: through chabot / live via email</span>
+                                            <span>OpenAI GPT-4o</span>
+                                            <span>Training materials</span>
+                                            <span>Basic OCR</span>
+                                        </p>
+                                        <p class="text">
+                                            <b>Included:</b>
+                                            <span>Number of custom agents you can create: 10</span>
+                                            <span>Number of users: 20</span>
+                                            <span>Number of super-users: 3 </span>
+                                            <span>Number of requests: 10 000 included, unlimited via own API</span>
+                                            <span>Number of Workspaces: 1</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block stylePurple plan3">
+                                    <p class="name sbWeight">
+                                        Enterprise Dedicated
+                                    </p>
+                                    <p class="price forMonth">
+                                        from <span class="sbWeight">₸2 400 000</span> / month
+                                    </p>
+                                    <p class="price forYear">
+                                        from <span class="sbWeight">₸24 000 000</span> / year
+                                    </p>
+                                    <div class="textList">
+                                        <p>
+                                            Number of custom agents you can create: 30
+                                        </p>
+                                        <p>
+                                            Number of users: 100
+                                        </p>
+                                        <p>
+                                            Number of super-users: 10
+                                        </p>
+                                        <p>
+                                            Number of requests: 20 000 included, unlimited via  own API
+                                        </p>
+                                        <p>
+                                            Number of Workspaces: 5
+                                        </p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton transparent" onclick="$('.enterpriseDialog').show();$('body').addClass('modalOpened');">Learn more</button>
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Enterprise Dedicated');">Submit request</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="enterpriseDialog caseModal pricingDialog">
+                                <div class="overlay" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"></div>
+                                <div class="contentBlock">
+                                    <button class="close" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+                                    <div class="caseInfoBox">
+                                        <p class="name bWeight">
+                                            Enterprise Dedicated
+                                            <span class="price">
+                                                from <b class="sbWeight">₸24 000 000</b> / year
+                                            </span>
+                                        </p>
+                                        <p class="text brown">
+                                            RAG – Intelligent Search and Answer Generation Based on Your Corporate Knowledge Base
+                                        </p>
+                                        <p class="text">
+                                            <b>Default agents:</b>
+                                            <span>Code Interpreter – Performs accurate calculations using formulas</span>
+                                            <span>Web Search Agent – Connects to search engines to retrieve relevant online information</span>
+                                            <span>HR Onboarding Agent – Helps new employees get started, answers frequently asked questions</span>
+                                            <span>Translator – Kazakh/Russian/English translator that adapts to your company’s tone, terminology, and legal language</span>
+                                        </p>
+                                        <p class="text">
+                                            <b>Features:</b>
+                                            <span>Bulk Upload</span>
+                                            <span>Support: through chabot / live via email</span>
+                                            <span>OpenAI GPT-4o</span>
+                                            <span>Training materials</span>
+                                            <span>Basic OCR</span>
+                                        </p>
+                                        <p class="text">
+                                            <b>Included:</b>
+                                            <span>Number of custom agents you can create: 30</span>
+                                            <span>Number of users: 100</span>
+                                            <span>Number of super-users: 10</span>
+                                            <span>Number of requests: 20 000 included, unlimited via  own API</span>
+                                            <span>Number of Workspaces: 5</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block styleGrey plan4">
+                                    <p class="name sbWeight">
+                                        On-Premise
+                                    </p>
+                                    <p class="price secondStyle">
+                                        Custom terms for large-scale <br>projects
+                                    </p>
+                                    <div class="textList">
+                                        <p>
+                                            Designed for companies with strict data control and security requirements
+                                        </p>
+                                        <p>
+                                            Unlimited number of users
+                                        </p>
+                                        <p>
+                                            Vector storage: no limits (depends on server configuration)
+                                        </p>
+                                        <p>
+                                            Max number of documents: no limits (depends on server configuration)
+                                        </p>
+                                        <p>
+                                            Bulk upload available
+                                        </p>
+                                        <p>
+                                            Hosting on client-side infrastructure (On-Premise)
+                                        </p>
+                                        <p>
+                                            Support from a dedicated implementation team
+                                        </p>
+                                        <p>
+                                            Flexible integration with external systems
+                                        </p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton" onclick="window.open('https://wa.me/77012211271?text=Hello! I\'m interested in the On-Premise subscription.')">Chat on WhatsApp</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="block styleLast plan5">
+                                    <p class="name sbWeight">
+                                        AI Assistant Setup
+                                    </p>
+                                    <p class="price">
+                                        from <span class="sbWeight">₸1 400 000</span> / year
+                                    </p>
+                                    <p class="text descr">
+                                        Includes prompt engineering, model selection, precision tuning, document upload and indexing, and iterative testing to ensure the required answer quality.
+                                    </p>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Настройка одного AI-помощника');">Submit request</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid postsBlock" id="main-news-block" style="display: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Blog</span></p>
+                    <h3>Interesting articles for you</h3>
+                </div>
+            </div>
+        </div>
+        <div class="postsList" id="news-block">
+        </div>
+        <button class="defaultButton" style="margin: 2rem auto 0; display: block;" onclick="window.location.href='https://blog.shai.pro/'">View all articles</button>
+    </div>
+
+    <div class="container-fluid partnerBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h4>Partners and clients</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="partnersList">
+                    <div class="item"><img src="/landing/img/partner1.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner2.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner3.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner4.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner5.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner6.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner7.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner8.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner9.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid faqBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>FAQ</span></p>
+                    <h4>Frequently Asked Questions</h4>
+                </div>
+                <div class="col-sm-6 offset-sm-3">
+                    <div class="faqList">
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                How to get started with shai.pro?
+                            </p>
+                            <p class="text">
+                                1. Contact us – Submit a request for a consultation through our website.<br><br>
+                                2. Needs analysis – We’ll help identify the right plan, configuration, and integration.<br><br>
+                                3. Launch & setup – Our team will train the platform on your data, test it, and deploy it in your company.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                What document formats does shai.pro support?
+                            </p>
+                            <p class="text">
+                                shai.pro works with formats such as DOCX, EXCEL, PPTX, IMAGE, PDF, TXT, MD, JSON, and HTML.<br><br>
+                                If your format is different, contact us for clarification.
+                            </p>
+                        </div>
+
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                What models does shai.pro support?
+                            </p>
+                            <p class="text">
+                                We support all popular LLM models, including:<br>
+                                GPT by OpenAI (GPT-3.5, GPT-4, GPT-4 Turbo, GPT-4o), Mistral, Groq, Gemini, LLaMA by Meta, and Claude by Anthropic.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Can shai.pro be integrated with our systems?
+                            </p>
+                            <p class="text">
+                                Yes, shai.pro supports integration with CRM, ERP, BI, and other document management systems.<br><br>
+                                The only requirement is API connectivity on your side.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Can we create our own AI assistant?
+                            </p>
+                            <p class="text">
+                                Yes, you can create your own AI assistant. We provide detailed guides, training materials, and technical support.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Can we customize responses to match our corporate tone?
+                            </p>
+                            <p class="text">
+                                Yes. Provide examples of your brand style, and we’ll configure shai.pro to generate responses that follow your corporate guidelines.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Can we use multiple AI assistants for different departments?
+                            </p>
+                            <p class="text">
+                                Yes, shai.pro supports creating dedicated assistants for each department or task. Each assistant can have its own knowledge base.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Can our whole team use a single assistant?
+                            </p>
+                            <p class="text">
+                                Yes, shai.pro supports multi-user mode. The entire team can work with the same assistant simultaneously.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                How accurate are shai.pro’s answers?
+                            </p>
+                            <p class="text">
+                                Answer accuracy depends on the quality of your data, the AI training, and regular knowledge base updates. We test each model to ensure maximum relevance and precision.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Are there any limits on queries or users?
+                            </p>
+                            <p class="text">
+                                shai.pro scales with your needs and supports high volumes of users and queries. Any limits depend on your selected pricing plan.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                How much does shai.pro cost?
+                            </p>
+                            <p class="text">
+                                Pricing depends on your knowledge base size, number of users, and customization needs. Contact us for a custom quote and plan recommendation.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                How long does it take to set up shai.pro?
+                            </p>
+                            <p class="text">
+                                Setup takes between 1 and 3 weeks, depending on the amount of data and task complexity.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="modalMain">
+    <div class="overlay" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"></div>
+    <div class="modalBlock">
+        <p class="label bWeight">Leave a request</p>
+        <button class="close" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+        <form id="mainForm">
+            <p id="forInvestorsText">
+                Want to learn more about our project? Leave your contact details, and we’ll send you a pitch deck with key information about potential collaboration opportunities.
+            </p>
+            <input type="text" id="planName" name="plan" style="display: none">
+            <div class="formGroup">
+                <label for="formName">Your name</label>
+                <input type="text" id="formName" name="name" placeholder="Enter your name">
+            </div>
+            <div class="formGroup companyToggle">
+                <label for="formCompany">Company name</label>
+                <input type="text" id="formCompany" name="company" placeholder="Enter your company name">
+            </div>
+            <div class="formGroup">
+                <label for="formPhone">Phone number</label>
+                <input type="text" id="formPhone" name="phone" placeholder="Enter your phone number">
+            </div>
+            <button type="submit" class="defaultButton">Submit</button>
+        </form>
+        <div class="successBlock">
+            <div class="successIcon">
+                <span class="iconify" data-icon="octicon:check-16" data-inline="false"></span>
+            </div>
+            <p class="successTitle sbWeight">Thank you for reaching out!</p>
+            <p class="text">We will get back to you shortly</p>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+</body>
+</html>

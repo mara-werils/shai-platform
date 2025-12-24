@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script>
+        const allowedHosts = ['shai.pro', 'dev.shai.pro', 'localhost'];
+        if (!allowedHosts.includes(window.location.hostname)) {location.href = '/apps';}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Products | Shai</title>
+    <meta name="description" content="Обучение на корпоративных данных, ускорение процессов, повышение продуктивности, улучшение обслуживания и круглосуточный доступ.">
+    <meta name="robots" content="index, follow">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" type="image/x-icon" href="/landing/favicon.ico">
+    <link rel="canonical" href="https://shai.pro/products" />
+
+    <link rel="stylesheet" href="/landing/css/main.css?version=0.0.0.00000020">
+    <script src="/landing/js/jquery.js"></script>
+    <script src="/landing/js/popper.js"></script>
+    <script src="/landing/js/bootstrap.js"></script>
+    <script src="/landing/js/iconify.js"></script>
+</head>
+<body class="darkSlide">
+
+<div id="header"></div>
+
+<div id="main-block" class="inPage products-page">
+
+    <div class="container-fluid firstBlock">
+        <div class="container">
+            <div class="bkg d-block d-sm-none"><img src="/landing/img/products/mob.png" alt=""></div>
+            <div class="bkgBlock d-none d-sm-block">
+                <video autoplay muted loop>
+                    <source src="/landing/img/new2.webm" type="video/webm">
+                </video>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h1>Мы не предсказываем будущее.<br>
+                        Мы создаём его для вас</h1>
+                    <p class="text">
+                        Агенты SHAI — это не мечты о завтрашнем дне —
+                        это готовые решения, приносящие результат вашему бизнесу уже сегодня.
+                    </p>
+                    <button class="defaultButton whiteStyle" onclick="slowScroll('.firstSolutionsBlock')">Познакомьтесь с AI-агентами</button>
+                </div>
+                <div class="col-sm-6">
+                    <div class="motionBlock"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container bigInfoBlock">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h2>Узкоспециализированные решения для реальных задач</h2>
+                <p class="text">
+                    Каждый агент SHAI — это точное решение конкретной задачи.<br>
+                    Никаких универсальных шаблонов — каждый агент полностью адаптирован под ваш бизнес, процессы и рабочий поток.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid solutionsBlock firstSolutionsBlock">
+        <img src="/landing/img/bkg3.png" alt="" class="bkg">
+        <div class="container">
+            <div class="row customStyle">
+                <div class="col-sm-12 text-center">
+                    <p class="description">
+                        Наши агенты — это не абстрактный искусственный интеллект. Каждый из них создан под конкретную бизнес-задачу и точно настраивается под ваши требования. Они берут на себя рутинную работу, ускоряют процессы и обеспечивают результат, который сложно достичь вручную.
+                    </p>
+                    <div class="tabs">
+                        <button class="defaultButton transparentStyle active" onclick="slowScroll('.firstSolutionsBlock'); $('.tabs button').removeClass('active'); $(this).addClass('active');">AI Агенты</button>
+                        <button class="defaultButton transparentStyle" onclick="slowScroll('.thirdBlock'); $('.tabs button').removeClass('active'); $(this).addClass('active');">Инструменты SHAI</button>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <h4 class="agentsTitle">AI Агенты</h4>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="mage:box-check-fill" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI Compliance AI</p>
+                        <p class="text">
+                            Контролирует соответствие документов международным и отраслевым стандартам (ISO, ГОСТ, API, ASME) с функцией генерации СОП.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="garden:headset-fill-16" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI Service Desk Agent</p>
+                        <p class="text">
+                            Агент для автоматизации поддержки и обработки запросов в службу поддержки.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="mynaui:search-waves-solid" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI News Agent</p>
+                        <p class="text">
+                            Агент для мониторинга новостей, приоритизации, выявления рисков или возможностей.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="fluent:mail-error-20-filled" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI Law Complaints Agent</p>
+                        <p class="text">
+                            Агент для обработки жалоб в соответствии с нормативами, законами и технической спецификацией.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="streamline:voice-mail-solid" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI Voice Assistant Agent</p>
+                        <p class="text">
+                            Голосовой агент с возможностью транскрибации аудиофайлов с собраний, встреч в Teams, Zoom и других системах.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="streamline-ultimate:data-file-graph-bold" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI Report Generator Agent</p>
+                        <p class="text">
+                            Агент для генерации драфтовых и шаблонных PDF-отчётов.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="solar:checklist-minimalistic-bold" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI Summarization Agent</p>
+                        <p class="text">
+                            Агент, собирающий по таймеру переписку из корпоративных чатов и Telegram и выдающий краткие резюме.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container bigInfoBlock secondStyle">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h3>
+                    Чтобы агенты работали безупречно, им необходим набор специализированных инструментов. Представьте это как двигатель и топливо — вместе они обеспечивают максимальную скорость, точность и безопасность данных.
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid solutionsBlock secondStyle thirdBlock">
+        <div class="container">
+            <div class="row customStyle">
+                <div class="col-sm-12 text-center">
+                    <h4>
+                        Мощные инструменты за кулисами
+                    </h4>
+                    <p class="description">
+                        Защищают ваши данные, обеспечивают память и контекст для агентов, а также бесшовно интегрируются в вашу инфраструктуру без потерь в скорости и контроле.
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="streamline-plump:database-solid" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI AI Moderator Tool </p>
+                        <p class="text">
+                            Агент для фильтрации и контроля запросов к большим языковым моделям (LLM).
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="icon-park-solid:api" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI OCR Tool</p>
+                        <p class="text">
+                            Агент для распознавания текстов в сканах и изображениях.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="block" onclick="window.location.href='/404'">
+                        <div class="icon"><span class="iconify plus" data-icon="si:memory-fill" data-inline="false"></span></div>
+                        <p class="name bWeight">SHAI Memory Management Tool</p>
+                        <p class="text">
+                            Слой памяти ИИ между сессиями и чатами. Слой памяти для персонализированного ИИ.
+                        </p>
+                        <a href="/404" class="link">Learn more <span class="iconify plus" data-icon="si:arrow-right-line" data-inline="false"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid bringShaiPro">
+        <img src="/landing/img/products/bkg2.png" alt="" class="bkg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigTitle">Хотите внедрить агентов <br>shai.pro в свой бизнес?</p>
+                    <button class="defaultButton whiteStyle" onclick="showFormModal()">Связаться с нами</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div id="footer"></div>
+
+</body>
+
+<script src="/landing/js/include-ru.js"></script>
+<script src="/landing/js/common-scripts.js"></script>
+<script src="/landing/js/products-scripts.js"></script>
+</html>

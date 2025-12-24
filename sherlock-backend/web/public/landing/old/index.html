@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script>
+        const allowedHosts = ['shai.pro', 'dev.shai.pro', 'localhost'];
+        if (!allowedHosts.includes(window.location.hostname)) {location.href = '/apps';}
+    </script>
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="/landing/css/main.css?version=0.0.0.0000009">
+    <link rel="stylesheet" href="/landing/css/style.css?version=0.0.0.00000010">
+    <link rel="stylesheet" href="/landing/css/slick.css">
+</head>
+<body class="darkSlide">
+
+<style>
+    html, body{overflow: auto!important; height: auto!important;}
+</style>
+
+<div id="header"></div>
+
+<div id="mainBlock">
+
+    <div class="container-fluid firstBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-6 offset-sm-3 text-center">
+                    <h1>
+                        AI-помощники, которые понимают ваш бизнес и отвечают за секунды
+                    </h1>
+                    <p class="text">
+                        Обучение на корпоративных данных, ускорение процессов, <br>
+                        повышение продуктивности, улучшение обслуживания <br>
+                        и круглосуточный доступ
+                    </p>
+                    <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('');">Записаться на демо</button>
+                    <button class="defaultButton transparent" onclick="slowScroll('.priceBlock');">Узнать стоимость</button>
+                </div>
+                <div class="col-sm-12">
+                    <img src="/landing/img/main-new.png" alt="" class="mainImage">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid aboutBlock">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>О платформе</span></p>
+                    <h2>Что такое shai.pro?</h2>
+                </div>
+                <div class="col-sm-12">
+                    <div class="bkgBlock">
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <img class="d-none d-sm-block" src="/landing/img/about-new.png" alt="">
+                                <img class="d-block d-sm-none" src="/landing/img/about-mobile-new.png" alt="">
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="text bWeight">
+                                    Это платформа AI-помощников, понимающих ваш бизнес и предоставляющих быстрые, точные ответы на основе корпоративных данных
+                                </p>
+                                <p class="text">
+                                    Она объединяет поиск и умный чат, мгновенно находя нужную информацию в базе знаний с указанием источников. Благодаря гибкой индексации и многоязычной поддержке, shai.pro ускоряет процессы, повышает продуктивность и помогает управлять большим объёмом информации
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid processBlock">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Как работает Shai.pro</span></p>
+                    <h2>Пошаговый процесс</h2>
+                </div>
+                <div class="col-sm-12">
+                    <div class="tabs">
+                        <button id="processTab1" class="active">Загрузка документов в базу знаний</button>
+                        <button id="processTab2">Индексация документов</button>
+                        <button id="processTab3">Запрос через поиск или чат</button>
+                        <button id="processTab4">Мгновенный доступ к результатам с цитированием</button>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="tabBody processTab1 opened">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Загрузка документов в базу знаний
+                                </p>
+                                <p class="text">
+                                    Загрузка файлов в базу знаний (поддерживаются форматы PDF, DOCX, XLS, TXT, CSV, PPTX и другие) для их последующей обработки
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabBody processTab2">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Индексация документов
+                                </p>
+                                <p class="text">
+                                    Обработка и структурирование загруженных данных с созданием векторных представлений, что обеспечивает точный поиск и быстрые ответы на запросы в чате.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabBody processTab3">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Запрос через поиск или чат
+                                </p>
+                                <p class="text">
+                                    Пользователи могут либо искать нужные данные через строку поиска, либо задать вопрос в чате, получая быстрые и точные ответы.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabBody processTab4">
+                        <div class="row align-items-center">
+                            <div class="col-12 d-block d-sm-none">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="name bWeight">
+                                    Мгновенный доступ к результатам с цитированием
+                                </p>
+                                <p class="text">
+                                    Shai.pro предоставляет ссылки на исходные документы и данные, позволяя сотрудникам легко проверять и подтверждать информацию.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 offset-sm-1 d-none d-sm-block">
+                                <img src="/landing/img/step.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid advantagesBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Преимущества платформы</span></p>
+                    <h3>Почему компании выбирают shai.pro?</h3>
+                </div>
+                <div class="col-sm-12">
+                    <div class="advantagesList">
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Экономия времени
+                            </p>
+                            <p class="text">
+                                Мгновенный поиск и чат ускоряют доступ к данным, сокращая ручной труд
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Точность ответов
+                            </p>
+                            <p class="text">
+                                Каждый ответ сопровождается ссылкой на источник, что гарантирует достоверность
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Многоязычная поддержка
+                            </p>
+                            <p class="text">
+                                Работает с документами на разных языках, упрощая работу глобальных команд
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Интеграция с корпоративными системами
+                            </p>
+                            <p class="text">
+                                Подключите shai.pro к CRM, ERP и BI-системам для расширенного анализа и управления данными
+                            </p>
+                        </div>
+                        <div class="block">
+                            <p class="name sbWeight">
+                                Простой интерфейс
+                            </p>
+                            <p class="text">
+                                Интуитивный поиск и чат, которые можно использовать без специального обучения
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid casesBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Кейсы</span></p>
+                    <h3>Как компании используют shai.pro</h3>
+                </div>
+                <div class="col-sm-12 relativeBlock">
+                    <button class="arrow left" onclick="$('.casesSlick').slick('prev')">
+                        <span class="iconify" data-icon="mingcute:down-line" data-inline="false"></span>
+                    </button>
+                    <button class="arrow right" onclick="$('.casesSlick').slick('next')">
+                        <span class="iconify" data-icon="mingcute:down-line" data-inline="false"></span>
+                    </button>
+                    <div class="casesSlick">
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case1.jpg" alt="">
+                                <p class="name bWeight">
+                                    Медицина и фармацевтика
+                                </p>
+                                <a href="/shai-cases?category=1"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case2.jpg" alt="">
+                                <p class="name bWeight">
+                                    Финансы и инвестиции
+                                </p>
+                                <a href="/shai-cases?category=2"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case3.jpg" alt="">
+                                <p class="name bWeight">
+                                    Промышленность и стандартизация
+                                </p>
+                                <a href="/shai-cases?category=3"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case4.jpg" alt="">
+                                <p class="name bWeight">
+                                    Государственный сектор
+                                </p>
+                                <a href="/shai-cases?category=4"></a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <img src="/landing/img/cases/case5.jpg" alt="">
+                                <p class="name bWeight">
+                                    Образование
+                                </p>
+                                <a href="/shai-cases?category=5"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid priceBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Стоимость и условия</span></p>
+                    <h3>Стоимость и условия подключения</h3>
+                    <div class="periodButtons">
+                        <button class="active" onclick="$('.periodButtons>button').removeClass('active');$(this).addClass('active');$('.forMonth').show();$('.forYear').hide();">В месяц</button>
+                        <button onclick="$('.periodButtons>button').removeClass('active');$(this).addClass('active');$('.forYear').show();$('.forMonth').hide();">В год</button>
+                    </div>
+                    <p class="forYearTitle">Годовой план со скидкой 20%</p>
+                    <div class="mobileButtonsList d-block d-sm-none">
+                        <button id="plan1" class="defaultButton light">Pilot</button>
+                        <button id="plan2" class="defaultButton light active">Business</button>
+                        <button id="plan3" class="defaultButton light">Enterprise Dedicated</button>
+                        <button id="plan4" class="defaultButton light">On-Premise</button>
+                        <button id="plan5" class="defaultButton light">Настройка одного AI-помощника</button>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="bkgBlock">
+                        <div class="row customRow">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block styleBlue plan1">
+                                    <p class="name sbWeight">
+                                        Pilot
+                                    </p>
+                                    <p class="price forMonth">
+                                        от <span class="sbWeight">1 400 000 ₸</span>
+                                    </p>
+                                    <p class="price forYear">
+                                        от <span class="sbWeight">1 400 000 ₸</span>
+                                    </p>
+                                    <div class="textList">
+                                        <p>
+                                            До 10 пользователей
+                                        </p>
+                                        <p>
+                                            Хранилище векторных данных: 2 ГБ
+                                        </p>
+                                        <p>
+                                            Максимальное количество документов: до 100
+                                        </p>
+                                        <p>
+                                            Сроки пилота 1 месяц
+                                        </p>
+                                        <p>
+                                            Поддержка: через чат
+                                        </p>
+                                        <p>
+                                            Расходы на токены моделей <br>40 млн токенов включены <br>( ~9 000 запросов)
+                                        </p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Pilot');">Оставить заявку</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block styleOrange plan2 active">
+                                    <p class="name sbWeight">
+                                        Business
+                                    </p>
+                                    <p class="price forMonth">
+                                        от <span class="sbWeight">1 200 000 ₸</span> в месяц
+                                    </p>
+                                    <p class="price forYear">
+                                        от <span class="sbWeight">12 000 000 ₸</span> в год
+                                    </p>
+                                    <div class="textList">
+                                        <p>Количество настраиваемых агентов: 10</p>
+                                        <p>Количество пользователей: 20</p>
+                                        <p>Количество супер-пользователей: 3</p>
+                                        <p>Количество запросов: 10 000 включено, неограниченно через собственный API</p>
+                                        <p>Количество рабочих пространств: 1</p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton transparent" onclick="$('.enterpriseDialog').show();$('body').addClass('modalOpened');">Подробнее</button>
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Business');">Оставить заявку</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="businessDialog caseModal pricingDialog">
+                                <div class="overlay" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"></div>
+                                <div class="contentBlock">
+                                    <button class="close" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+                                    <div class="caseInfoBox">
+                                        <p class="name bWeight">
+                                            Business
+                                            <span class="price">
+                                                от <b class="sbWeight">12 000 000 ₸</b> / год
+                                            </span>
+                                        </p>
+                                        <p class="text brown">
+                                            RAG – Интеллектуальный поиск и генерация ответов на основе вашей корпоративной базы знаний
+                                        </p>
+                                        <p class="text">
+                                            <b>Возможности:</b>
+                                            <span>Массовая загрузка данных</span>
+                                            <span>Поддержка: через чат-бота / напрямую по email</span>
+                                            <span>OpenAI GPT-4o</span>
+                                            <span>Обучающие материалы</span>
+                                            <span>Базовая OCR (оптическое распознавание текста)</span>
+                                            <span>Поддержка: через чат</span>
+                                            <span>Интеграция с внешними системами</span>
+                                        </p>
+                                        <p class="text">
+                                            <b>Включено:</b>
+                                            <span>Количество настраиваемых агентов: 10</span>
+                                            <span>Количество пользователей: 20</span>
+                                            <span>Количество супер-пользователей: 3</span>
+                                            <span>Количество запросов: 10 000 включено, неограниченно через собственный API</span>
+                                            <span>Количество рабочих пространств: 1</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block stylePurple plan3">
+                                    <p class="name sbWeight">
+                                        Enterprise Dedicated
+                                    </p>
+                                    <p class="price forMonth">
+                                        от <span class="sbWeight">2 400 000 ₸</span> в месяц
+                                    </p>
+                                    <p class="price forYear">
+                                        от <span class="sbWeight">24 000 000 ₸</span> в год
+                                    </p>
+                                    <div class="textList">
+                                        <p>Количество настраиваемых агентов: 30</p>
+                                        <p>Количество пользователей: 100</p>
+                                        <p>Количество супер-пользователей: 10</p>
+                                        <p>Количество запросов: 20 000 включено, неограниченно через собственный API</p>
+                                        <p>Количество рабочих пространств: 5</p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton transparent" onclick="$('.enterpriseDialog').show();$('body').addClass('modalOpened');">Подробнее</button>
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Enterprise Dedicated');">Оставить заявку</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="enterpriseDialog caseModal pricingDialog">
+                                <div class="overlay" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"></div>
+                                <div class="contentBlock">
+                                    <button class="close" onclick="$('.caseModal').hide();$('body').removeClass('modalOpened');"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+                                    <div class="caseInfoBox">
+                                        <p class="name bWeight">
+                                            Enterprise Dedicated
+                                            <span class="price">
+                                                от <b class="sbWeight">24 000 000 ₸</b> / год
+                                            </span>
+                                        </p>
+                                        <p class="text brown">
+                                            RAG – Интеллектуальный поиск и генерация ответов на основе вашей корпоративной базы знаний
+                                        </p>
+                                        <p class="text">
+                                            <b>Предустановленные агенты:</b>
+                                            <span>HR Onboarding Agent — помогает сотрудникам адаптироваться, отвечает на частые вопросы</span>
+                                            <span>Web Search Agent — подключается к поисковым системам для получения актуальной информации из интернета</span>
+                                            <span>Code Interpreter — выполняет точные вычисления по формулам</span>
+                                            <span>Translator — переводчик казахский/русский/английский с адаптацией под стиль, терминологию и юридический язык вашей компании</span>
+                                        </p>
+                                        <p class="text">
+                                            <b>Возможности:</b>
+                                            <span>Массовая загрузка данных</span>
+                                            <span>Поддержка: через чат-бота / напрямую по email</span>
+                                            <span>OpenAI GPT-4o</span>
+                                            <span>Обучающие материалы</span>
+                                            <span>Базовая OCR (оптическое распознавание текста)</span>
+                                            <span>Поддержка: через чат</span>
+                                            <span>Интеграция с внешними системами</span>
+                                        </p>
+                                        <p class="text">
+                                            <b>Включено:</b>
+                                            <span>Количество настраиваемых агентов: 30</span>
+                                            <span>Количество пользователей: 100</span>
+                                            <span>Количество супер-пользователей: 10</span>
+                                            <span>Количество запросов: 20 000 включено, неограниченно через собственный API</span>
+                                            <span>Количество рабочих пространств: 5</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="block styleGrey plan4">
+                                    <p class="name sbWeight">
+                                        On-Premise
+                                    </p>
+                                    <p class="price secondStyle">
+                                        Индивидуальные условия для крупных проектов
+                                    </p>
+                                    <div class="textList">
+                                        <p>
+                                            Крупные компании с особыми требованиями и необходимостью полного контроля над данными
+                                        </p>
+                                        <p>
+                                            Неограниченное количество пользователей
+                                        </p>
+                                        <p>
+                                            Хранилище векторных данных: без ограничений (зависит от выбранной конфигурации сервера)
+                                        </p>
+                                        <p>
+                                            Максимальное количество документов: без ограничений (зависит от выбранной конфигурации сервера)
+                                        </p>
+                                        <p>
+                                            Массовая загрузка: доступна
+                                        </p>
+                                        <p>
+                                            Размещение: сервер на стороне клиента (On-Premise)
+                                        </p>
+                                        <p>
+                                            Поддержка: персональная команда внедрения
+                                        </p>
+                                        <p>
+                                            Интеграция с внешними системами, гибкость внедрения
+                                        </p>
+                                    </div>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton" onclick="window.open('https://wa.me/77012211271?text=Здравствуйте! Меня интересует On-Premise подписка.')">Перейти в WhatsApp</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="block styleLast plan5">
+                                    <p class="name sbWeight">
+                                        Настройка одного AI-помощника
+                                    </p>
+                                    <p class="price">
+                                        от <span class="sbWeight">1 400 000 ₸</span> в год
+                                    </p>
+                                    <p class="text descr">
+                                        Настройка AI-помощника включает разработку инструкций для его работы, настройку параметров для повышения точности,
+                                        выбор оптимальной модели, загрузку и индексацию всех необходимых документов, а также тестирование и корректировку промптов до достижения требуемого качества ответов.
+                                    </p>
+                                    <div class="bottomBlock">
+                                        <button class="defaultButton" onclick="$('.modalMain').fadeIn();$('#planName').val('Настройка одного AI-помощника');">Оставить заявку</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid postsBlock" id="main-news-block" style="display: none;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>Блог</span></p>
+                    <h3>Интересные статьи для вас</h3>
+                </div>
+            </div>
+        </div>
+        <div class="postsList" id="news-block">
+        </div>
+        <button class="defaultButton" style="margin: 2rem auto 0; display: block;" onclick="window.location.href='https://blog.shai.pro/'">Посмотреть все статьи</button>
+    </div>
+
+    <div class="container-fluid partnerBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h4>Партнеры и клиенты</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="partnersList">
+                    <div class="item"><img src="/landing/img/partner1.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner2.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner3.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner4.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner5.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner6.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner7.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner8.png" alt=""></div>
+                    <div class="item"><img src="/landing/img/partner9.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid faqBlock">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p class="bigLabel white"><span>FAQ</span></p>
+                    <h4>Часто задаваемые вопросы</h4>
+                </div>
+                <div class="col-sm-6 offset-sm-3">
+                    <div class="faqList">
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Как начать работу с shai.pro?
+                            </p>
+                            <p class="text">
+                                1. Свяжитесь с нами – Оставьте заявку на консультацию через наш сайт.<br><br>
+                                2. Анализ потребностей – Мы поможем определить подходящий тариф, настройку и интеграцию.<br><br>
+                                3. Запуск и настройка – Наша команда обучит платформу на ваших данных, протестирует и внедрит её в вашу компанию.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Какие форматы документов поддерживает shai.pro?
+                            </p>
+                            <p class="text">
+                                Shai.pro работает с такими форматами, как DOCX, EXCEL, PPTX, IMAGE, PDF, TXT, MD, JSON и HTML.<br><br>
+                                Если ваш формат отличается, свяжитесь с нами для уточнения.
+                            </p>
+                        </div>
+
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Какие модели поддерживает shai.pro?
+                            </p>
+                            <p class="text">
+                                Мы поддерживаем все популярные LLM-модели, включая:<br>
+                                GPT от OpenAI (GPT-3.5, GPT-4, GPT-4 Turbo, GPT-4o), Mistral, Groq, Gemini, LLaMA от Meta и Claude от Anthropic.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Можно ли интегрировать shai.pro с нашими системами?
+                            </p>
+                            <p class="text">
+                                Да, shai.pro поддерживает интеграцию с CRM, ERP, BI и другими системами документооборота.<br><br>
+                                Главное, чтобы используемые платформы поддерживали подключение через API.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Можем ли мы сами создать AI-помощника?
+                            </p>
+                            <p class="text">
+                                Да, вы можете создать собственного AI-помощника. Мы предоставляем подробные руководства, обучающие материалы и техническую поддержку.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Можно ли настроить ответы в корпоративном стиле?
+                            </p>
+                            <p class="text">
+                                Да, предоставьте примеры вашего фирменного стиля, и мы настроим shai.pro так, чтобы его ответы соответствовали корпоративной политике.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Можем ли мы использовать несколько AI-помощников для разных отделов?
+                            </p>
+                            <p class="text">
+                                Да, shai.pro поддерживает создание отдельных AI-помощников для каждого отдела или задачи. У каждого помощника может быть собственная база знаний.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Может ли вся команда работать с одним ассистентом?
+                            </p>
+                            <p class="text">
+                                Да, shai.pro поддерживает многопользовательский режим. Это позволяет всей команде одновременно работать с одним AI-ассистентом.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Насколько точны ответы shai.pro?
+                            </p>
+                            <p class="text">
+                                Точность ответов зависит от качества предоставленных данных, обучения AI и регулярного обновления базы знаний. Мы тестируем модель, чтобы обеспечить максимальную релевантность и точность.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Есть ли ограничения на количество запросов или пользователей?
+                            </p>
+                            <p class="text">
+                                Shai.pro масштабируется под ваши задачи и поддерживает большое количество запросов и пользователей. Ограничения могут зависеть только от выбранного тарифного плана.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Сколько стоит shai.pro?
+                            </p>
+                            <p class="text">
+                                Стоимость зависит от объёма базы знаний, количества пользователей и требований к настройке и интеграции. Свяжитесь с нами, чтобы получить индивидуальный расчет и подобрать тариф.
+                            </p>
+                        </div>
+                        <div class="item">
+                            <span class="iconify plus" data-icon="mingcute:down-line" data-inline="false"></span>
+                            <p class="name sbWeight">
+                                Сколько времени занимает настройка shai.pro?
+                            </p>
+                            <p class="text">
+                                Настройка платформы занимает от 1 до 3 недель, в зависимости от объема данных и сложности задач.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="modalMain">
+    <div class="overlay" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"></div>
+    <div class="modalBlock">
+        <p class="label bWeight">Оставить заявку</p>
+        <button class="close" onclick="$('.modalMain').hide();$('#formCompany').val('');$('.companyToggle').show();$('#forInvestorsText').hide();"><span class="iconify" data-icon="iconamoon:close-bold" data-inline="false"></span></button>
+        <form id="mainForm">
+            <p id="forInvestorsText">
+                Хотите узнать больше о нашем проекте? Оставьте свои контакты, и мы отправим вам питчдек с ключевой информацией о возможностях сотрудничества
+            </p>
+            <input type="text" id="planName" name="plan" style="display: none">
+            <div class="formGroup">
+                <label for="formName">Ваше имя</label>
+                <input type="text" id="formName" name="name" placeholder="Введите ваше имя">
+            </div>
+            <div class="formGroup companyToggle">
+                <label for="formCompany">Название компании</label>
+                <input type="text" id="formCompany" name="company" placeholder="Введите название компании">
+            </div>
+            <div class="formGroup">
+                <label for="formPhone">Номер телефона</label>
+                <input type="text" id="formPhone" name="phone" placeholder="Введите номер телефона">
+            </div>
+            <button type="submit" class="defaultButton">Записаться</button>
+        </form>
+        <div class="successBlock">
+            <div class="successIcon">
+                <span class="iconify" data-icon="octicon:check-16" data-inline="false"></span>
+            </div>
+            <p class="successTitle sbWeight">Спасибо за обращение!</p>
+            <p class="text">Мы свяжемся с вами в ближайшее время</p>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+.dragAndDropMainBlock{
+    background: #F9FAFB;
+}
+
+.modalTitle {
+    color: #495464;
+}
+
+.dragAndDropText{
+    color: #495464;
+    font-weight: 500;
+}
+
+.dragAndDropText>span{
+    color: #0E5F4C;
+    font-weight: 500;
+}
+
+.typesText{
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.fileList {
+    background: transparent;
+}
+
+.fileItem {
+    border: 1px solid #E7E8EA;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.9rem;
+}
+
+.fileItem.exist {
+    border-color: #E4791A;
+}
+
+.duplicateWarning {
+    color: #E4791A;
+    font-size: 0.75rem;
+    margin-top: 0.25rem!important;
+    margin-bottom: 0.75rem!important;
+    line-height: 1.2;
+}
+
+.fileName {
+    color: #495464;
+}
+
+.fileSize {
+    color: #495464;
+}
+
+.removeButton {
+    color: #495464;
+}
+
+.fileExtension {
+    color: #6B7280;
+    font-weight: 500;
+}
